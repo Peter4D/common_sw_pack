@@ -1,13 +1,3 @@
-/**
- * @file utilities.c
- * @author Medvese Peter (peter.medvesek@gorenje.com)
- * @brief 
- * @version 1.0
- * @date 2019-11-27
- * 
- * @copyright Copyright (c) 2019
- * 
- */
 
 #include "num_str_convert.h"
 

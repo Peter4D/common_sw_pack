@@ -1,7 +1,6 @@
 
 #include "assert_gorenje.h"
 
-//#define DEBUG
 
 void assert_failed(uint8_t* file, uint32_t line);
 

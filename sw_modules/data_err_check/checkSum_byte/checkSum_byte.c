@@ -6,7 +6,7 @@
  */ 
 
 
-#include "checkSum_byte_incl.h"
+#include "checkSum_byte.h"
 
 
 void get_checkSum_byte(const uint8_t* data, size_t data_size, uint8_t* checkSum_out)

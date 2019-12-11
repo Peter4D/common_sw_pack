@@ -1,5 +1,5 @@
 /*!
- *  @file		: utilities.h
+ *  @file		: num_str_convert.h
  *
  *	@date		: 11. 07. 2017 revision: 27. 11. 2019
  *  @author		: peter.medvesek

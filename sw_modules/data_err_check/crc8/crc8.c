@@ -5,7 +5,7 @@
  *  Author: peter.medvesek
  */ 
 
-#include "crc8_incl.h"
+#include "crc8.h"
 
 /*
 crc table calculated from dallas/maxim polynomial: CRC-8-Dallas/Maxim: [0x8C]

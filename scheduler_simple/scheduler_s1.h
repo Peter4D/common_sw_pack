@@ -1,26 +1,21 @@
 /*
- * scheduler_2.h
+ * scheduler_2.c
  *
- * Created: 11. 12. 2017 10:19:34
+ * Created: 11. 12. 2017; revision: 11.12.2019
  *  Author: peter.medvesek
- */ 
+ */
 
 
-#ifndef SCHEDULER_2_H_
-#define SCHEDULER_2_H_
+#ifndef SCHEDULER_S1_H_
+#define SCHEDULER_S1_H_
 
-#include "master_incl.h"
+#include <stdint.h>
 
 typedef struct {
 	void (*task_run) (void);
 	uint32_t tm_periode;
 	uint32_t tm_elapsed;
 }task_t;
-
-typedef struct {
-
-}singleShot_t;
-
 
 typedef struct {
 	void (*run)				(void);
@@ -36,8 +31,8 @@ typedef struct {
 
 extern scheduler_t* scheduler;
 
+/* this is redundant: only to use (->) syntax instead of (.)*/
 scheduler_t* sceduler_Init(void);
 
 
-
-#endif /* SCHEDULER_2_H_ */
+#endif /* SCHEDULER_S1_H_ */

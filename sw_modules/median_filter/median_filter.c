@@ -2,7 +2,7 @@
 #include <string.h>
 
 /* dependencies */
-#include "assert_stm8_gorenje.h"
+#include "assert_gorenje.h"
 #include "median_filter.h"
 #include "sort_wrap.h"
 
@@ -62,55 +62,6 @@ median_value_t filter_median_get(median_desc_t *pDesc, median_value_t newData) {
     }
     return return_val;
 }
-
-/* this version of function do not work ... @todo investigate why
-fail appear in test_data[11]; error in memmove source and dest. are offset by one,
-but this is not reflected in code!
-*/
-// median_value_t get_median(median_desc_t *pDesc, median_value_t data) {
-//     median_data_t *pWindow = (median_data_t*)pDesc->pBuffer;
-
-//     uint8_t i = 0;
-//     uint8_t old_val_idx = 0;
-//     uint8_t num_of_byte2move = 0;
-//     uint8_t nConst = 0;
-
-//     assert(pDesc != NULL);
-
-//     /* index of the value in window that will be removed */
-//     old_val_idx = find_index(pDesc);
-
-//     /* find index in sorted window where new value will be put in, so that window will remain sorted */
-//     for(i = 0; i < pDesc->buff_size; ++i) {
-//         if(data <= pWindow[i].data || i == pDesc->buff_size - 1) {
-//             /* find place  */
-//             break;
-//         }
-//     }
-
-//     //num_of_byte2move = (int8_t)((old_val_idx - i) * sizeof(median_data_t));
-    
-//     if(old_val_idx > i){
-//         nConst = 0;
-//         num_of_byte2move = (uint8_t)((old_val_idx - i) * sizeof(median_data_t));
-//         memmove(&pWindow[i + 1], &pWindow[i], num_of_byte2move);
-//     }else if (old_val_idx < i) {
-//         nConst = 1;
-//         //num_of_byte2move = (int8_t)((i - old_val_idx - nConst) * sizeof(median_data_t));
-//         num_of_byte2move = (i - old_val_idx) - nConst;
-//         num_of_byte2move *= sizeof(median_data_t);
-//         memmove(&pWindow[(i - 1) - nConst], &pWindow[(i) - nConst], num_of_byte2move );
-//     }else if(old_val_idx == i){
-//         nConst = 0
-//     }
-
-//     /* put new data in to a free up spot in a window */
-//     pWindow[i - nConst].data = data;
-//     pWindow[i - nConst].idx = pDesc->newData_idx;
-
-//     /* return value that is in a middle of a window (>> 1 equal to int divide by 2) */
-//     return pWindow[pDesc->buff_size >> 1].data;
-// }
 
 /**
  * @brief helper function: put new data in median window and return median value

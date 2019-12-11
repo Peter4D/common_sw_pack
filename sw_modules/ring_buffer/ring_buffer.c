@@ -7,9 +7,8 @@
  */ 
 #include <stdint.h>
 #include "ring_buffer.h"
+#include "assert_gorenje.h"
 
-
-//#define _ASSERT_ENABLE_
 
 //=====================================================================================
 /* methods declarations */ 
@@ -59,8 +58,8 @@ static void push_method(ringBuff_t *pThis, uint8_t byte)
     }
     else
     {
-        //Assert_user(0);
         // ERROR, can't override buffer
+        assert(0);
     }  
 }
 

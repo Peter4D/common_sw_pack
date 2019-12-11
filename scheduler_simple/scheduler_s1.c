@@ -1,15 +1,9 @@
-/*
- * scheduler_2.c
- *
- * Created: 11. 12. 2017 10:19:18
- *  Author: peter.medvesek
- */
 
-#include "scheduler_2.h"
-#include "debug_incl.h"
+#include "scheduler_s1.h"
+#include "assert_gorenje.h"
 
-#define TASK_MAX (10)
-#define SINGLE_MAX (10)
+#define TASK_MAX    (10)
+#define SINGLE_MAX  (10)
 
 static task_t tasks_queue[TASK_MAX];
 static void (*singleShot_queue[SINGLE_MAX])(void);
@@ -29,16 +23,16 @@ void new_singleShot_method(void (*single_fptr)(void));
 void _dummy(void);
 //=============================================================
 
+/* if this systax do not compile: remove: ( .xy = ) */
 static scheduler_t _scheduler = {
-    .add_task = &add_task_method,
+    .add_task       = &add_task_method,
     .new_singleShot = &new_singleShot_method,
-    .run = &run_method,
-    .task_exe = &task_exe_method,
+    .run            = &run_method,
+    .task_exe       = &task_exe_method,
 
-    ._task_active_F = 0,
-    ._single_active_F = 0,
-    ._active_task_ID = 0
-
+    ._task_active_F     = 0,
+    ._single_active_F   = 0,
+    ._active_task_ID    = 0
 };
 
 scheduler_t *sceduler_Init(void)
@@ -94,7 +88,7 @@ void run_method(void)
     else
     {
         // task  take to much time
-        //Assert_user(0);
+        assert(0);
     }
 }
 
@@ -129,7 +123,7 @@ void add_task_method(void (*task)(void), uint32_t periode)
     }
     else
     {
-        Assert_user(0); // max task reached
+        assert(0); // max task reached
     }
 }
 
@@ -143,7 +137,7 @@ void new_singleShot_method(void (*single_fptr)(void))
     }
     else
     {
-        Assert_user(0); // max number of unhandled single shot (or event )
+        assert(0); // max number of unhandled single shot (or event )
     }
 }
 
