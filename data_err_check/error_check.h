@@ -21,7 +21,6 @@
 #define ERR_CHECK_METHOD	(_USE_CRC)
 //=================================================================================
 
-
 void error_check(uint8_t* data, size_t size, uint8_t* error_check_out);
 
 
