@@ -9,7 +9,7 @@
  * 
  */
 
-#include "utilities.h"
+#include "num_str_convert.h"
 
 /**
  * @brief  helper function: do a second complement of a number
@@ -47,6 +47,7 @@ uint8_t num2str(int32_t num_in, uint8_t *const pStr_out) {
 		}
 		for (i = 0; num_in > 0; i++)
 		{
+            /* @todo try to replace % operator (assumsion is that this is slow on 8bit) */
 			temp_str[i] = (uint8_t)((num_in % 10) + '0'); // ascii shift for numbers 0 -> 48(dec)
 			num_in = num_in / 10;
 		}

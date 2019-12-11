@@ -6,8 +6,8 @@
  */ 
 
 
-#ifndef UTILITIES_INCL_H_
-#define UTILITIES_INCL_H_
+#ifndef NUM_STR_CONVERT_INCL_H_
+#define NUM_STR_CONVERT_INCL_H_
 
 #include <stdint.h>
 #include <stddef.h>
@@ -29,4 +29,4 @@ uint8_t num2str(int32_t num_in, uint8_t *const pStr_out);
  */
 int32_t str2num(const uint8_t *const str); 
 
-#endif /* UTILITIES_INCL_H_ */
+#endif /* NUM_STR_CONVERT_INCL_H_ */

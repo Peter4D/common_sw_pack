@@ -1,7 +1,7 @@
-#ifndef UTILITIES_TEST_H
-#define UTILITIES_TEST_H
+#ifndef NUM_STR_CONVERT_TEST_H
+#define NUM_STR_CONVERT_TEST_H
 
-#include "utilities.h"
+#include "num_str_convert.h"
 
 /**
  * @brief performed number of test for str2num function. To see what test are done look
@@ -19,4 +19,4 @@ uint8_t test_str2num(void);
  */
 uint8_t test_num2str(void);
 
-#endif /* UTILITIES_TEST_H */
+#endif /* NUM_STR_CONVERT_TEST_H */

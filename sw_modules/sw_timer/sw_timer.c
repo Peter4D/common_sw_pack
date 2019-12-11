@@ -2,26 +2,36 @@
  * sw_timer.c
  *
  * @date    Created     24. 08. 2017 15:54:55
- * @date    revision    04. 04. 2019
+ * @date    revision    05. 12. 2019
  * @author: peter.medvesek
  */  
 
 #include "sw_timer.h"
 
 // this is added for use of assert facility
-#include "debug_user.h"
+#include "assert_stm8_gorenje.h"
 
-
+// Array of pointers to timers structs. It is limited. alternative is linked list 
+#define SW_TM_INST_MAX	10
 
 //! method declaration
 //! @ingroup methods
 static void     pause_method            (sw_timer_t* pThis);
 static bool     isElapsed_method        (sw_timer_t* pThis);
-static void     attach_callBack_method  (sw_timer_t* pThis, f_ptr callback);
+static void     attach_callBack_method  (sw_timer_t* pThis, pF_swTm callback);
 static void     set_method              (sw_timer_t* pThis, uint32_t set_value);
 static void     reSet_method            (sw_timer_t* pThis, uint32_t set_value);
 static void     clear_method            (sw_timer_t* pThis);
 static uint32_t getTime_method          (sw_timer_t* pThis);
+
+
+/**
+ * @brief put instance(set pointer) of sw timer into array so that tick can function can update it
+ * 
+ * @param pThis     : pointer to instance that will be addad to array
+ * @return uint8_t  : return 1 if max number ob timers is reached (error!) otherwise 0
+ */
+static uint8_t sw_tm_getNewSlot(sw_timer_t* pThis);
 
 const struct _sw_timer_methods swTimer = {
     &set_method,
@@ -33,22 +43,22 @@ const struct _sw_timer_methods swTimer = {
     &attach_callBack_method 
 };
 
-// module internal function
-static uint8_t sw_tm_getNewSlot();
 
-// Array of pointers to timers structs. It is limited. alternative is linked list 
-#define SW_TM_INST_MAX	10
-sw_timer_t* sw_timers[SW_TM_INST_MAX]; 
+/* array of pointer to instances of software timers. alternative will be linked list
+but if user o not use a lot of sw timers this is also adequate */
+sw_timer_t *pSw_timers[SW_TM_INST_MAX]; 
 
+/* track number of sw timer instances */
 static uint8_t sw_tm_slot_id = 0;
-uint8_t sw_tm_getNewSlot(sw_timer_t* pThis) {
+
+static uint8_t sw_tm_getNewSlot(sw_timer_t* pThis) {
 	
 	if (sw_tm_slot_id >= SW_TM_INST_MAX)
 	{
-        ASSERT_EMBED(0);
+        assert(0);
 		return 1; // max number of counter reached
 	} else {
-		sw_timers[sw_tm_slot_id] = pThis;	
+		pSw_timers[sw_tm_slot_id] = pThis;	
 		// count number of software_timers
 		++sw_tm_slot_id;
 		return 0;
@@ -56,12 +66,12 @@ uint8_t sw_tm_getNewSlot(sw_timer_t* pThis) {
 }
 
 
-void _sw_timers_tick() {
+void swTimer_tick() {
 	uint8_t i = 0;
     sw_timer_t *pTimer;
 
 	for (i; i < sw_tm_slot_id; ++i) {
-        pTimer = sw_timers[i]; 
+        pTimer = pSw_timers[i]; 
 		if (pTimer->_status == SWTM_RUNNING) {
 			pTimer->_cnt++;
 			
@@ -77,7 +87,7 @@ void _sw_timers_tick() {
 	}
 }
 
-// constructor
+/* constructor */
 void swTimer_init(sw_timer_t* pThis) {
 	sw_tm_getNewSlot(pThis);
 	
@@ -121,6 +131,6 @@ static bool isElapsed_method(sw_timer_t* pThis) {
 	}
 }
 
-static void attach_callBack_method(sw_timer_t* pThis, f_ptr callback) {
+static void attach_callBack_method(sw_timer_t* pThis, pF_swTm callback) {
 	pThis->_callback_fptr = callback;
 }
