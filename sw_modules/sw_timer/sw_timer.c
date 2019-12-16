@@ -21,7 +21,7 @@ static bool     isElapsed_method        (sw_timer_t* pThis);
 static void     attach_callBack_method  (sw_timer_t* pThis, pF_swTm callback);
 static void     set_method              (sw_timer_t* pThis, uint32_t set_value);
 static void     reSet_method            (sw_timer_t* pThis, uint32_t set_value);
-static void     clear_method            (sw_timer_t* pThis);
+static void     flush_method            (sw_timer_t* pThis);
 static uint32_t getTime_method          (sw_timer_t* pThis);
 
 
@@ -36,7 +36,7 @@ static uint8_t sw_tm_getNewSlot(sw_timer_t* pThis);
 const struct _sw_timer_methods swTimer = {
     &set_method,
     &reSet_method,
-    &clear_method,
+    &flush_method,
     &getTime_method, 
     &pause_method, 
     &isElapsed_method, 
@@ -109,7 +109,7 @@ static void reSet_method(sw_timer_t* pThis, uint32_t set_value) {
 	pThis->_cnt = 0;
 }
 
-static void clear_method(sw_timer_t* pThis) {
+static void flush_method(sw_timer_t* pThis) {
 	pThis->_cnt = 0;
 	pThis->_status = SWTM_STOP;
 }
