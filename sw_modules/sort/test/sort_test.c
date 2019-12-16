@@ -20,7 +20,7 @@ uint8_t test_sort(void) {
     /* function under test */
     sort_int8(test_I8_data, TEST_DATA_SIZE);
 
-    cmpr_res = memcmp(test_I8_data, test_sort_I8_data, cmpr_size);
+    cmpr_res = (uint8_t)memcmp(test_I8_data, test_sort_I8_data, cmpr_size);
     if(0 != cmpr_res) {
         /* test fail */
         return_val = 1;

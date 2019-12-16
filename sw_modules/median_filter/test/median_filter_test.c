@@ -21,6 +21,8 @@ median_data_t median_ch1_win[MEDIAN_WIN_SIZE];
 median_value_t test_rezult_data[TEST_DATA_SIZE];
 
 //=================================================================================================
+/* test dataset is generated with MS excel */
+
 /* this set of test value is [ PASS ] */
 median_value_t test_data_1[TEST_DATA_SIZE]        =
 {9,10,8,10,11,10,8,9,12,35,10,12,10,10,1,9,8,85,12,10,10};
@@ -45,6 +47,8 @@ typedef struct _test_dat_t{
     median_value_t *pRef_result;
 }test_dat_t;
 
+/* @note At the moment: Test data is manually selected in this structure. Improve can be done to
+expand this test to automatically go through all test data sets.*/
 test_dat_t test_dat = {
     test_data_3,
     ref_rezult_data_3

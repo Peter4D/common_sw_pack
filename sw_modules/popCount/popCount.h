@@ -15,7 +15,7 @@
 #include <stdint.h>
 
 
-uint_fast8_t popCount(uint_fast8_t input);
+uint8_t popCount(uint8_t input);
 
 
 #endif /* POPCOUNT_H */

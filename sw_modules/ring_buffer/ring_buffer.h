@@ -1,12 +1,13 @@
-/*!
- *  \file			ring_buffer.h
- *
- *  \created:		31. 05. 2017 12:11:42
- *	\date modified:	12. 12. 2019 
- *  \author:		peter.medvesek
- */ 
-
-
+/**
+ * @file ring_buffer.h
+ * @author Peter Medvesek (peter.medvesek@gorenje.com)
+ * @brief 
+ * @version 0.1
+ * @date 2017-05-31 | last update: 2019-12-12
+ * 
+ * @copyright Copyright (c) 2019 Gorenje d.o.o
+ * 
+ */
 #ifndef RING_BUFFER_INCL_H_
 #define RING_BUFFER_INCL_H_
 

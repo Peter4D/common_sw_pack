@@ -18,8 +18,8 @@
  * @brief test routine for popCount function: return number relay information 
  * about which test fail in test array.
  * 
- * @return uint_fast8_t : > 1 - test [fail] | 0 - test [pass]
+ * @return uint8_t : > 1 - test [fail] | 0 - test [pass]
  */
-uint_fast8_t popCount_test(void);
+uint8_t popCount_test(void);
 
 #endif /* POPCOUNT_TEST_H */

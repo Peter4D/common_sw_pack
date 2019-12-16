@@ -2,9 +2,17 @@
 #include <string.h>
 
 /* dependencies */
-#include "assert_gorenje.h"
+#include "assert_stm8_gorenje.h"
 #include "median_filter.h"
-#include "sort_wrap.h"
+#include "bubble_sort.h"
+
+#undef _inline
+#define _inline          @inline
+
+#ifndef _inline
+    #error provide inline keyword
+    #define _inline
+#endif
 
 /**
  * @brief helper function of filter_median_get. put new value in right place and return median value
@@ -23,6 +31,29 @@ static median_value_t get_median(median_desc_t *pDesc, median_value_t data);
  */
 static uint8_t find_index(median_desc_t *pDesc);
 
+/**
+ * @brief compare function for bubble sort algorithm to sort median_data_t object 
+ * 
+ * @param a compare value 1
+ * @param b compare value 2
+ * @return uint8_t :1 if a > b | 0 if a < b
+ */
+uint8_t compare_median (const void *a, const void *b);
+
+_inline void sort_median(void* pBuffer, size_t nSize) {
+    bubble_sort(pBuffer, nSize, sizeof(median_data_t), compare_median);
+}
+
+uint8_t compare_median (const void *a, const void *b){
+    median_data_t *cast_a = (median_data_t *)a;
+    median_data_t *cast_b = (median_data_t *)b;
+
+    if(cast_a->data > cast_b->data){
+        return 1;
+    }else {
+        return 0;
+    }
+}
 
 median_value_t filter_median_get(median_desc_t *pDesc, median_value_t newData) {
     median_data_t *pWindow = (median_data_t*)pDesc->pBuffer;

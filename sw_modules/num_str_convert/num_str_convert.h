@@ -1,10 +1,13 @@
-/*!
- *  @file		: num_str_convert.h
- *
- *	@date		: 11. 07. 2017 revision: 27. 11. 2019
- *  @author		: peter.medvesek
- */ 
-
+/**
+ * @file num_str_convert.h
+ * @author Peter Medvesek (peter.medvesek@gorenje.com)
+ * @brief 
+ * @version 0.1
+ * @date 2019-11-27
+ * 
+ * @copyright Copyright (c) 2019 Gorenje d.o.o
+ * 
+ */
 
 #ifndef NUM_STR_CONVERT_INCL_H_
 #define NUM_STR_CONVERT_INCL_H_

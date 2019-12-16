@@ -26,15 +26,3 @@ uint8_t compare_int16(const void *a, const void *b)
     }
 }
 
-
-uint8_t compare_median (const void *a, const void *b){
-    median_data_t *cast_a = (median_data_t *)a;
-    median_data_t *cast_b = (median_data_t *)b;
-
-    if(cast_a->data > cast_b->data){
-        return 1;
-    }else {
-        return 0;
-    }
-}
-
