@@ -2,7 +2,7 @@
 #include <string.h>
 
 /* dependencies */
-#include "assert_stm8_gorenje.h"
+#include "assert_gorenje.h"
 #include "median_filter.h"
 #include "bubble_sort.h"
 

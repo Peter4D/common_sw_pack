@@ -1,3 +1,13 @@
+/**
+ * @file assert_gorenje.h
+ * @author Peter Medvesek (peter.medvesek@gorenje.com)
+ * @brief 
+ * @version 1.0
+ * @date 2019-12-16
+ * 
+ * @copyright Copyright (c) 2019 Gorenje d.o.o
+ * 
+ */
 
 #ifndef _ASSERT_GORENJE_
 #define _ASSERT_GORENJE_

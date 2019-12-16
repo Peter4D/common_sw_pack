@@ -2,7 +2,7 @@
  * @file num_str_convert.h
  * @author Peter Medvesek (peter.medvesek@gorenje.com)
  * @brief 
- * @version 0.1
+ * @version 1.0
  * @date 2019-11-27
  * 
  * @copyright Copyright (c) 2019 Gorenje d.o.o

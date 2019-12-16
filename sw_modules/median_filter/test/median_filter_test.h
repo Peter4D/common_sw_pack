@@ -10,7 +10,7 @@
  * @version 0.1
  * @date 2019-11-28
  * 
- * @copyright Copyright (c) 2019
+ * @copyright Copyright (c) 2019 Gorenje d.o.o.
  * 
  */
 

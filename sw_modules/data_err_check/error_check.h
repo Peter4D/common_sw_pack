@@ -1,10 +1,13 @@
-/*
- * error_check.h
- *
- * Created: 17. 07. 2017 12:14:16
- *  Author: peter.medvesek
- */ 
-// TEST: OK
+/**
+ * @file error_check.h
+ * @author Peter Medvesek (peter.medvesek@gorenje.com)
+ * @brief 
+ * @version 0.1
+ * @date 2017-07-17
+ * 
+ * @copyright Copyright (c) 2019 Gorenje d.o.o
+ * 
+ */
 
 #ifndef ERROR_CHECK_INCL_H_
 #define ERROR_CHECK_INCL_H_

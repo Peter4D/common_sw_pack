@@ -1,10 +1,3 @@
-/*
- * checkSum_byte.c
- *
- * Created: 17. 07. 2017 11:55:31
- *  Author: peter.medvesek
- */ 
-
 
 #include "checkSum_byte.h"
 

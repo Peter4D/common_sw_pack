@@ -1,11 +1,13 @@
-/*
- * checkSum_byte_incl.h
- *
- * Created: 17. 07. 2017 11:56:00
- *  Author: peter.medvesek
- */ 
-// TEST: OK
-
+/**
+ * @file checkSum_byte.h
+ * @author Peter Medvesek (peter.medvesek@gorenje.com)
+ * @brief 
+ * @version 0.1
+ * @date 2017-07-17
+ * 
+ * @copyright Copyright (c) 2019 Gorenje d.o.o
+ * 
+ */
 #ifndef CHECKSUM_BYTE_INCL_H_
 #define CHECKSUM_BYTE_INCL_H_
 

@@ -1,3 +1,14 @@
+/**
+ * @file num_str_convert_test.h
+ * @author Peter Medvesek (peter.medvesek@gorenje.com)
+ * @brief 
+ * @version 1.0
+ * @date 2019-12-16
+ * 
+ * @copyright Copyright (c) 2019 Gorenje d.o.o
+ * 
+ */
+
 #ifndef NUM_STR_CONVERT_TEST_H
 #define NUM_STR_CONVERT_TEST_H
 
