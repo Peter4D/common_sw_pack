@@ -6,7 +6,7 @@
 #include "bubble_sort.h"
 
 
-#define _inline          @inline
+//#define _inline          @inline
 
 #ifndef _inline
     #error provide inline keyword

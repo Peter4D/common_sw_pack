@@ -9,7 +9,7 @@
 #include "sw_timer.h"
 
 // this is added for use of assert facility
-#include "assert_stm8_gorenje.h"
+#include "assert_gorenje.h"
 
 // Array of pointers to timers structs. It is limited. alternative is linked list 
 #define SW_TM_INST_MAX	10
