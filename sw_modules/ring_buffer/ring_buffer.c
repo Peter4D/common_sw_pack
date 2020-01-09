@@ -45,7 +45,7 @@ const struct _ringBuff_methods_t RingBuff = {
 };
 
 /* constructor */
-void ringBuffer_init(ringBuff_t *pThis, ringBuff_data_t *pData, size_t dataSize)
+void RingBuff_init(ringBuff_t *pThis, ringBuff_data_t *pData, size_t dataSize)
 {
     uint16_t loop_itr = 0;
 

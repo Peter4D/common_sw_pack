@@ -53,7 +53,7 @@ extern const struct _ringBuff_methods_t RingBuff;
  * @param pData     : pointer to external data container for ring buffer to use
  * @param dataSize  : size of external container (must be size of 2^n i.e. 4,8,16,32,...)
  */
-void ringBuffer_init(ringBuff_t *pThis, uint8_t *pData, size_t dataSize);
+void RingBuff_init(ringBuff_t *pThis, uint8_t *pData, size_t dataSize);
 
 
 #endif /* RING_BUFFER_INCL_H_ */
