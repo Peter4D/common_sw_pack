@@ -68,8 +68,10 @@ uint8_t num2str(int32_t num_in, uint8_t *const pStr_out) {
 }
 
 
-int32_t str2num(const uint8_t *const str) {
+uint8_t str2num(const uint8_t *const str, int32_t *outNum) {
 #define MUN_MAX_DIGIT_CNT       (30u)
+
+    uint8_t return_err = 0;
 
 	uint8_t i = 0;
     int8_t sign = 1;
@@ -86,6 +88,7 @@ int32_t str2num(const uint8_t *const str) {
 		if (i > MUN_MAX_DIGIT_CNT) {
             /* protection if string is not NULL terminated */
             temp_num = 0;
+            return_err = 1;
             break;
 			// return 0; 
 		}
@@ -97,9 +100,12 @@ int32_t str2num(const uint8_t *const str) {
 		} else {
 			/* this is not a number (NaN) */
             temp_num = 0;
+            return_err = 1;
             break;
 			//return 0; 
 		}
 	}
-	return (temp_num * sign);
+    *outNum = temp_num * sign;
+
+    return (return_err);
 }

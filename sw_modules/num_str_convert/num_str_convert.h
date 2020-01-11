@@ -28,8 +28,9 @@ uint8_t num2str(int32_t num_in, uint8_t *const pStr_out);
  * @brief convert c string (zero terminated) to interger number 
  * test: 2019_11_27 [OK] 
  * @param str       : input c string
- * @return int32_t  : converted number. 0 if NaN or is string is too long
+ * @param outNum    : output number extracted from string
+ * @return uint8_t  : error code 1 if NaN or is string is too long
  */
-int32_t str2num(const uint8_t *const str); 
+uint8_t str2num(const uint8_t *const str, int32_t *outNum); 
 
 #endif /* NUM_STR_CONVERT_INCL_H_ */

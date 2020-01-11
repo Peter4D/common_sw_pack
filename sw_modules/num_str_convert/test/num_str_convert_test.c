@@ -20,7 +20,8 @@ uint8_t test_str2num(void){
     uint8_t i;
     
     for(i = 0; i < nTest; i++) {
-        result = str2num(tests[i].pStr);
+        /* @todo add return code test !!*/
+        str2num(tests[i].pStr, &result);
         if(result != tests[i].number) {
             /* test fail: encode test id as bitField */
             test_result |= (uint8_t)(1 << tests[i].test_id);
