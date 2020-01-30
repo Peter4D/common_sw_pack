@@ -1,13 +1,15 @@
 
-#include <string.h>
-
-/* dependencies */
-#include "assert_gorenje.h"
 #include "median_filter.h"
-#include "bubble_sort.h"
+#include <string.h>
+/* dependencies */
+#include "../../assert_gorenje/assert_gorenje.h"
+#include "../sort/bubble_sort.h"
 
 #undef _inline
-#define _inline          @inline
+
+#if defined(__GNUC__)
+    #define _inline     __attribute__((always_inline))
+#endif
 
 #ifndef _inline
     #error provide inline keyword
