@@ -1,8 +1,8 @@
 #include "filter_IIR.h"
 
 
-void Filter_IIR_Init(IIR_desc_t* pDesc, IIR_value_t* acu, uint8_t level) {
-    pDesc->overSamp_acu = 0;
+void Filter_IIR_Init(IIR_desc_t* pDesc, uint8_t level, IIR_value_t init_value) {
+    pDesc->overSamp_acu = init_value;
     pDesc->level = level;
 }
 
