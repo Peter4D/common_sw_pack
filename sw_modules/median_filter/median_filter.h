@@ -24,7 +24,7 @@
  * different types simultaneously. This is limitation of C language, that lacking templates, ...
  * or my imaginations :)
  */
-typedef uint32_t median_value_t; 
+typedef int32_t median_value_t; 
 
 //=================================================================================================
 // data types 
