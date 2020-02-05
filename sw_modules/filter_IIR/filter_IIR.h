@@ -46,7 +46,15 @@ void Filter_IIR_Init(IIR_desc_t* pDesc, uint8_t level, IIR_value_t init_value);
  * @param pDesc     :pointer to filter channel descriptor struct
  * @param newData   :new data that go into this filter channel
  */
-void Filter_IIR_Put(IIR_desc_t* pDesc, IIR_value_t newData);
+
+/**
+ * @brief Put new value through filter
+ * 
+ * @param pDesc         :pointer to filter channel descriptor struct
+ * @param newData       :new data that go into this filter channel
+ * @return IIR_value_t  :return filtered value
+ */
+IIR_value_t Filter_IIR_Put(IIR_desc_t* pDesc, IIR_value_t newData);
 
 /**
  * @brief Get back this channle filtered value 

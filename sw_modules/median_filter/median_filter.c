@@ -17,7 +17,7 @@
 #endif
 
 /**
- * @brief helper function of filter_median_get. put new value in right place and return median value
+ * @brief helper function of filter_median_put. put new value in right place and return median value
  * 
  * @param pDesc      : pointer to median stuct descriptor  
  * @param data      : new data that go into a filter 
@@ -57,7 +57,7 @@ uint8_t compare_median (const void *a, const void *b){
     }
 }
 
-median_value_t filter_median_get(median_desc_t *pDesc, median_value_t newData) {
+median_value_t filter_median_put(median_desc_t *pDesc, median_value_t newData) {
     median_data_t *pWindow = (median_data_t*)pDesc->pBuffer;
        
     median_value_t return_val = 0;
@@ -144,4 +144,8 @@ void filter_median_init(median_desc_t *pDesc, median_data_t *pData, size_t size)
 
     pDesc->pBuffer = pData;
     pDesc->buff_size = (uint8_t)size;
+}
+
+median_value_t filter_median_get(median_desc_t *pDesc) {
+    return (pDesc->pBuffer[pDesc->buff_size >> 1].data);    
 }

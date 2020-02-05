@@ -52,13 +52,21 @@ typedef struct _median_buff_t {
 void filter_median_init(median_desc_t *pDesc, median_data_t *pData, size_t size);
 
 /**
- * @brief return median value 
+ * @brief put new value into filter window and return median value from window 
  * 
  * @param pDesc           : descriptor of filter data channel (can be used on multiple channels )
  * @param newData         : new data that is put into median filter window
  * @return median_value_t : filtered median value 
  */
-median_value_t filter_median_get(median_desc_t *pDesc, median_value_t newData);
+median_value_t filter_median_put(median_desc_t *pDesc, median_value_t newData);
+
+/**
+ * @brief return median value 
+ * 
+ * @param pDesc           : descriptor of filter data channel (can be used on multiple channels )
+ * @return median_value_t : filtered median value
+ */
+median_value_t filter_median_get(median_desc_t *pDesc);
 
 
 #endif /* MEDIAN_FILTER_H */
