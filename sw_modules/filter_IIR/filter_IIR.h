@@ -40,12 +40,6 @@ typedef struct _IIR_desc_t {
  */
 void Filter_IIR_Init(IIR_desc_t* pDesc, uint8_t level, IIR_value_t init_value);
 
-/**
- * @brief Put new value through filter
- * 
- * @param pDesc     :pointer to filter channel descriptor struct
- * @param newData   :new data that go into this filter channel
- */
 
 /**
  * @brief Put new value through filter
@@ -56,11 +50,12 @@ void Filter_IIR_Init(IIR_desc_t* pDesc, uint8_t level, IIR_value_t init_value);
  */
 IIR_value_t Filter_IIR_Put(IIR_desc_t* pDesc, IIR_value_t newData);
 
+
 /**
- * @brief Get back this channle filtered value 
+ * @brief Get back this channel filtered value 
  * 
  * @param pDesc         :pointer to filter channel descriptor struct
- * @return IIR_value_t  : filtered value out
+ * @return IIR_value_t  :filtered value out
  */
 IIR_value_t Filter_IIR_Get(IIR_desc_t* pDesc);
 
