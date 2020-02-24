@@ -1,76 +1,112 @@
 
 #include "scheduler_s1.h"
-#include "assert_gorenje.h"
+//#include "assert_gorenje.h"
+#include "../../ext_source_rde/debug/src/rde_debug.h"
 
+#ifndef RDE_ASSERT
+#define RDE_ASSERT(expr) ((void)0)
+#endif
+
+/**
+ * @brief maximum number of task that can be set 
+ */
 #define TASK_MAX    (10)
 #define SINGLE_MAX  (10)
 
+typedef struct
+{
+    void (*task_run)(void);
+    uint32_t tm_periode;
+    uint32_t tm_elapsed;
+} task_t;
+
+/**
+ * @brief main task queue
+ */
 static task_t tasks_queue[TASK_MAX];
+
+/**
+ * @brief single shot task queue those calls are executed as soon as possible 
+ */
 static void (*singleShot_queue[SINGLE_MAX])(void);
 
-static uint8_t task_cnt = 0;
-static uint8_t singleShot_cnt = 0;
-
-scheduler_t *scheduler = 0; // pointer to scheduler for user to use
 
 //=============================================================
 // method declaration:
-void run_method(void);
-void task_exe_method(void);
-void add_task_method(void (*task)(void), uint32_t periode);
-void new_singleShot_method(void (*single_fptr)(void));
+
+/**
+ * @brief This run the scheduler (must be called from Hardware timer) 
+ */
+void run(void);
+
+/**
+ * @brief This method executing tasks. This must be called in main thread [ in while(1) loop ]
+ */
+void task_exe(void);
+
+/**
+ * @brief Add new task in execution queue
+ * 
+ * @param task      : function pointer to task funcion
+ * @param periode   : execution periode of this task function
+ */
+void add_task(void (*task)(void), uint32_t periode);
+
+/**
+ * @brief add new single shot task or function call. This is executed only once and is removed from queue
+ * 
+ * @param single_fptr   : Function pointer to function that will be executed as single shot 
+ */
+void new_singleShot(void (*single_fptr)(void));
 
 void _dummy(void);
 //=============================================================
 
 /* if this systax do not compile: remove: ( .xy = ) */
-static scheduler_t _scheduler = {
-    .add_task       = &add_task_method,
-    .new_singleShot = &new_singleShot_method,
-    .run            = &run_method,
-    .task_exe       = &task_exe_method,
+scheduler_t Scheduler = {
+    .add_task       = &add_task,
+    .new_singleShot = &new_singleShot,
+    .run            = &run,
+    .task_exe       = &task_exe,
 
-    ._task_active_F     = 0,
-    ._single_active_F   = 0,
-    ._active_task_ID    = 0
+    ._task_active_F         = 0,
+    ._single_active_F       = 0,
+    ._active_task_ID        = 0,
+    ._task_cnt              = 0,
+    ._single_shot_task_cnt  = 0
 };
 
-scheduler_t *sceduler_Init(void)
-{
-    return &_scheduler;
-}
 
 //=============================================================
 // methods implementations:
-void run_method(void)
+void run(void)
 {
-    //static uint8_t taskEvent_switch = 0;
     static uint8_t task_select = 0;
-    task_t *task;
+    task_t* p_task;
     uint8_t i = 0;
 
-    /* task timing handling */
-    for (i = 0; i < task_cnt; ++i)
+    /* Tasks timing handling */
+    for (i = 0; i < Scheduler._task_cnt; ++i)
     {
-        task = &tasks_queue[i];
-        task->tm_elapsed++;
+        p_task = &tasks_queue[i];
+        p_task->tm_elapsed += SCHEDULER_TICK_MS;
     }
 
-    if (_scheduler._single_active_F == 0 && _scheduler._task_active_F == 0)
+    /* if no task is currently executing scheduler select next task to be executed */
+    if (Scheduler._single_active_F == 0 && Scheduler._task_active_F == 0)
     {
-        for (i = 0; i < task_cnt; ++i)
+        for (i = 0; i < Scheduler._task_cnt; ++i)
         {
-            task = &tasks_queue[task_select];
-            if (task->tm_elapsed > task->tm_periode)
+            p_task = &tasks_queue[task_select];
+            if (p_task->tm_elapsed > p_task->tm_periode)
             {
-                task->tm_elapsed = 0;
-                _scheduler._task_active_F = 1;
-                _scheduler._active_task_ID = task_select;
+                p_task->tm_elapsed = 0;
+                Scheduler._active_task_ID = task_select;
+                Scheduler._task_active_F = 1;
                 break;
-                // task->task_run();
             }
 
-            if (task_select < (task_cnt - 1))
+            if (task_select < (Scheduler._task_cnt - 1))
             {
                 ++task_select;
             }
@@ -80,64 +116,66 @@ void run_method(void)
             }
         }
 
-        if (singleShot_cnt > 0)
+        if (Scheduler._single_shot_task_cnt > 0)
         {
-            _scheduler._single_active_F = 1;
+            Scheduler._single_active_F = 1;
         }
     }
     else
     {
         // task  take to much time
-        assert(0);
+        RDE_ASSERT(0);
     }
 }
 
-void task_exe_method(void)
+void task_exe(void)
 {
-    task_t *task;
+    task_t *p_task;
 
     // single shot events
-    if (_scheduler._single_active_F)
+    if (Scheduler._single_active_F)
     {
-        singleShot_queue[singleShot_cnt]();
-        --singleShot_cnt;
-        _scheduler._single_active_F = 0;
+        singleShot_queue[Scheduler._single_shot_task_cnt]();
+        --Scheduler._single_shot_task_cnt;
+        Scheduler._single_active_F = 0;
     }
 
-    if (_scheduler._task_active_F)
+    if (Scheduler._task_active_F)
     {
-        task = &tasks_queue[_scheduler._active_task_ID];
-        task->task_run();
-        _scheduler._task_active_F = 0;
+        p_task = &tasks_queue[Scheduler._active_task_ID];
+        p_task->task_run();
+        Scheduler._task_active_F = 0;
     }
 }
 
-void add_task_method(void (*task)(void), uint32_t periode)
+void add_task(void (*p_task)(void), uint32_t periode)
 {
-    if (task_cnt < TASK_MAX)
+    if (Scheduler._task_cnt < TASK_MAX)
     {
-        tasks_queue[task_cnt].tm_periode = periode;
-        tasks_queue[task_cnt].tm_elapsed += task_cnt; // to offset the task
-        tasks_queue[task_cnt].task_run = task;
-        ++task_cnt;
+        tasks_queue[Scheduler._task_cnt].tm_periode = periode;
+        tasks_queue[Scheduler._task_cnt].tm_elapsed += Scheduler._task_cnt; // to offset the task
+        tasks_queue[Scheduler._task_cnt].task_run = p_task;
+        ++Scheduler._task_cnt;
     }
     else
     {
-        assert(0); // max task reached
+        // max task reached
+        RDE_ASSERT(0); 
     }
 }
 
-void new_singleShot_method(void (*single_fptr)(void))
+void new_singleShot(void (*single_fptr)(void))
 {
-    singleShot_queue[singleShot_cnt] = single_fptr;
+    singleShot_queue[Scheduler._single_shot_task_cnt] = single_fptr;
 
-    if (singleShot_cnt < SINGLE_MAX)
+    if (Scheduler._single_shot_task_cnt < SINGLE_MAX)
     {
-        ++singleShot_cnt;
+        ++Scheduler._single_shot_task_cnt;
     }
     else
     {
-        assert(0); // max number of unhandled single shot (or event )
+        // max number of unhandled single shot (or event )
+        RDE_ASSERT(0); 
     }
 }
 
