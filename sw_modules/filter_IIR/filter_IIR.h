@@ -60,4 +60,21 @@ IIR_value_t Filter_IIR_Put(IIR_desc_t* pDesc, IIR_value_t newData);
 IIR_value_t Filter_IIR_Get(IIR_desc_t* pDesc);
 
 
+/**
+ * @brief return oversampled (super sampled), shifted left for filter level, value 
+ * 
+ * @param pDesc         :pointer to filter channel descriptor (cotrol block)struct
+ * @return IIR_value_t  :filtered value out (oversampled)
+ */
+IIR_value_t Filter_IIR_over_samp_get(IIR_desc_t* pDesc);
+
+/**
+ * @brief return filter level value
+ * 
+ * @param pDesc         :pointer to filter channel descriptor (cotrol block)struct
+ * @return IIR_value_t  :filter level 
+ */
+IIR_value_t Filter_IIR_level_get(IIR_desc_t* pDesc);
+
+
 #endif /* FILTER_IIR_H */
