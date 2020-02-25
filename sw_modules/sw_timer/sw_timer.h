@@ -1,17 +1,27 @@
-/*!
- * sw_timer.h
- *
- * @date    Created     24. 08. 2017 15:54:55
- * @date    revision    22.10.2018
- * @author: peter.medvesek
- */ 
-
+/**
+ * @file sw_timer.h
+ * @author Peter Medvesek (peter.medvesek@gorenje.com)
+ * @brief 
+ * @version 1.0
+ * @date 2017-08-24 | revision: 2020-02-25
+ * 
+ * @copyright Copyright (c) 2020 Gorenje d.o.o
+ * 
+ */
 #ifndef SW_TIMER_INCL_H_
 #define SW_TIMER_INCL_H_
 
 #include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
+
+/* global application modules settings file */
+//#include "rde_app_config.h"
+#include "sw_timer_cfg_default.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 // if this value is set for set value timer will run continuously
 #define SWTM_CON_RUN        (0u)
@@ -93,5 +103,9 @@ extern const struct _sw_timer_methods swTimer;
  */
 void swTimer_init(sw_timer_t* pThis);
 //---------------------------------------------------------------------------------------------------------------------
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* SW_TIMER_INCL_H_ */

@@ -14,11 +14,9 @@
 
 #include <stdint.h>
 
-/**
- * @brief Scheduler run period in milliseconds. This must be set to correct value in order for task to execute in 
- * correct timer periode. If Scheduler.run() is called every 10 ms, set this parameter to 10 !
- */
-#define SCHEDULER_TICK_MS      1
+
+//#include "rde_app_config.h"
+#include "scheduler_s1_cfg_default.h"
 
 
 typedef struct

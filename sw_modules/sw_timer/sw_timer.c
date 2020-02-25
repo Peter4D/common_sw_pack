@@ -1,18 +1,20 @@
-/*!
- * sw_timer.c
- *
- * @date    Created     24. 08. 2017 15:54:55
- * @date    revision    05. 12. 2019
- * @author: peter.medvesek
- */  
-
+/**
+ * @file sw_timer.c
+ * @author Peter Medvesek (peter.medvesek@gorenje.com)
+ * @brief 
+ * @version 1.0
+ * @date 2017-08-24 (created)
+ * @date 2020-02-25 (modified)
+ * 
+ * @copyright Copyright (c) 2020 Gorenje d.o.o
+ * 
+ */
 #include "sw_timer.h"
 
 // this is added for use of assert facility
-#include "assert_gorenje.h"
+#include "../../assert_gorenje/assert_gorenje.h"
 
-// Array of pointers to timers structs. It is limited. alternative is linked list 
-#define SW_TM_INST_MAX	10
+
 
 //! method declaration
 //! @ingroup methods
@@ -55,7 +57,7 @@ static uint8_t sw_tm_getNewSlot(sw_timer_t* pThis) {
 	
 	if (sw_tm_slot_id >= SW_TM_INST_MAX)
 	{
-        assert(0);
+        ASSERT_HOT_SW_PACK(0);
 		return 1; // max number of counter reached
 	} else {
 		pSw_timers[sw_tm_slot_id] = pThis;	
@@ -73,7 +75,7 @@ void swTimer_tick() {
 	for (i; i < sw_tm_slot_id; ++i) {
         pTimer = pSw_timers[i]; 
 		if (pTimer->_status == SWTM_RUNNING) {
-			pTimer->_cnt++;
+			pTimer->_cnt += SW_TIMER_TICK_MS;
 			
 			if (pTimer->_cnt >= pTimer->_set_value && pTimer->_set_value != SWTM_CON_RUN) {
 				pTimer->_status = SWTM_ELAPSED;
@@ -83,7 +85,7 @@ void swTimer_tick() {
 					pTimer->_callback_fptr(); 
 				}
 			}
-		} 		
+		}
 	}
 }
 

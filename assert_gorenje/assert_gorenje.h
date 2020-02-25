@@ -19,10 +19,10 @@ comment out this if you want to use assert feature !! */
 #define NDEBUG
 
 
-extern void assert_failed(uint8_t* file, uint32_t line);
+extern void assert_hot_sw_pack_failed(uint8_t* file, uint32_t line);
 
-#undef assert
-#define assert(expr) ((expr) ? (void)0 : assert_failed((uint8_t*)__FILE__, __LINE__))
+//#undef assert
+#define ASSERT_HOT_SW_PACK(expr) ((expr) ? (void)0 : assert_hot_sw_pack_failed((uint8_t*)__FILE__, __LINE__))
 
 
 #endif //_ASSERT_GORENJE_

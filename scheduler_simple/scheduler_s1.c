@@ -1,10 +1,17 @@
 
 #include "scheduler_s1.h"
-//#include "assert_gorenje.h"
-#include "../../ext_source_rde/debug/src/rde_debug.h"
 
-#ifndef RDE_ASSERT
-#define RDE_ASSERT(expr) ((void)0)
+/* dependencies */
+//#include "assert_gorenje.h"
+#include "ext_source_rde/debug/src/rde_debug.h"
+
+/** 
+ * @todo this is temporary solution this setting should be in different file like rde_app_cfg.h
+*/
+#define ASSERT_HOT_SW_PACK(expr) RDE_ASSERT(expr)
+
+#ifndef ASSERT_HOT_SW_PACK
+#define ASSERT_HOT_SW_PACK(expr) ((void)0)
 #endif
 
 /**
@@ -12,6 +19,7 @@
  */
 #define TASK_MAX    (10)
 #define SINGLE_MAX  (10)
+
 
 typedef struct
 {
@@ -124,7 +132,7 @@ void run(void)
     else
     {
         // task  take to much time
-        RDE_ASSERT(0);
+        ASSERT_HOT_SW_PACK(0);
     }
 }
 
@@ -160,7 +168,8 @@ void add_task(void (*p_task)(void), uint32_t periode)
     else
     {
         // max task reached
-        RDE_ASSERT(0); 
+        //RDE_ASSERT(0); 
+        ASSERT_HOT_SW_PACK(0);
     }
 }
 
@@ -175,7 +184,7 @@ void new_singleShot(void (*single_fptr)(void))
     else
     {
         // max number of unhandled single shot (or event )
-        RDE_ASSERT(0); 
+        ASSERT_HOT_SW_PACK(0); 
     }
 }
 

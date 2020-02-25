@@ -1,5 +1,5 @@
 #include "sw_timer_test.h"
-#include "sw_timer.h"
+#include "..\sw_timer.h"
 
 /* optional include, depend on your project */
 //#include "app_debug.h"
