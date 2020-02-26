@@ -68,7 +68,7 @@ static uint8_t sw_tm_getNewSlot(sw_timer_t* pThis) {
 }
 
 
-void swTimer_tick() {
+void swTimer_tick(void) {
 	uint8_t i = 0;
     sw_timer_t *pTimer;
 

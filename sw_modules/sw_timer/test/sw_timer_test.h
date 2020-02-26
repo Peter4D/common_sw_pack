@@ -12,8 +12,14 @@
 #ifndef SW_TIMER_TEST_H
 #define SW_TIMER_TEST_H
 
-/* @note: user need to call: swTimer_tick() by HW timer !! */
 
-void sw_timer_test(void);
+/**
+ * @brief this perform test of sowtware timer module
+ * @note: user need to call: swTimer_tick() by HW timer !!
+ * 
+ * @param ext_cb: user set through this callback what action will happen e.g. toogle led or pin and check
+ * timming with osciloscope.
+ */
+void sw_timer_test_init(void (*ext_cb)(void));
 
 #endif /* SW_TIMER_TEST_H */
