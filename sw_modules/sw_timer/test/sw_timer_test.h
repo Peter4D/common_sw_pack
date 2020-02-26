@@ -12,6 +12,7 @@
 #ifndef SW_TIMER_TEST_H
 #define SW_TIMER_TEST_H
 
+#include "../sw_timer.h"
 
 /**
  * @brief this perform test of sowtware timer module

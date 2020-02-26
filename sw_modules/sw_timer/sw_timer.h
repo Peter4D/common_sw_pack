@@ -3,7 +3,8 @@
  * @author Peter Medvesek (peter.medvesek@gorenje.com)
  * @brief 
  * @version 1.0
- * @date 2017-08-24 | revision: 2020-02-25
+ * @date 2017-08-24 (created)
+ * @date 2020-02-26 (revision)
  * 
  * @copyright Copyright (c) 2020 Gorenje d.o.o
  * 
@@ -38,50 +39,23 @@ typedef enum
 typedef void (*pF_swTm)(void);
 
 typedef struct _sw_tmr{
-	//private:
-	uint32_t        _cnt;
-	uint32_t        _set_value;
-	sw_tmr_status_t _status;
-	pF_swTm         _callback_fptr;
+    //private:
+    uint32_t        _cnt;
+    uint32_t        _set_value;
+    sw_tmr_status_t _status;
+    pF_swTm         _callback_fptr;
 }sw_timer_t;
 
 
 struct _sw_timer_methods{
-	//public:
-    /**
-     * @brief :set timer to set_value and start it
-     */
-	void     (*set)             (struct _sw_tmr*, uint32_t set_value);
-
-    /**
-     * @brief timer is set to set_value and timer counter is set to: 0
-     */
-	void     (*reSet)           (struct _sw_tmr*, uint32_t set_value);
-
-    /**
-     * @brief stop timer and set timer counter to: 0 
-     */
-	void     (*clear)           (struct _sw_tmr*);
-
-    /**
-     * @brief return current value of timer counter
-     */
+    //public:
+    void     (*set)             (struct _sw_tmr*, uint32_t set_value);
+    void     (*reSet)           (struct _sw_tmr*, uint32_t set_value);
+    void     (*clear)           (struct _sw_tmr*);
     uint32_t (*getTime)         (struct _sw_tmr*);
-
-    /**
-     * @brief pause timer (timer do not get updated)
-     */
-	void     (*pause)           (struct _sw_tmr*);
-
-    /**
-     * @brief return true if timer reach setted value 
-     */
-	bool     (*isElapsed)       (struct _sw_tmr*);
-
-    /**
-     * @brief attach callback that get called when timer reach setted value (elapsed)
-     */
-	void     (*attach_callBack) (struct _sw_tmr*, pF_swTm);
+    void     (*pause)           (struct _sw_tmr*);
+    bool     (*isElapsed)       (struct _sw_tmr*);
+    void     (*attach_callBack) (struct _sw_tmr*, pF_swTm);
 };
 
 /**

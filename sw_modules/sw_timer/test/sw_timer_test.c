@@ -1,5 +1,15 @@
+/**
+ * @file sw_timer_test.c
+ * @author Peter Medvesek (peter.medvesek@gorenje.com)
+ * @brief 
+ * @version 1.0
+ * @date 2019-12-16 (created)
+ * @date 2020-02-26 (revision)
+ * 
+ * @copyright Copyright (c) 2020 Gorenje d.o.o
+ * 
+ */
 #include "sw_timer_test.h"
-#include "..\sw_timer.h"
 
 
 /* 1 second */
