@@ -3,7 +3,7 @@
 
 /* dependencies */
 //#include "assert_gorenje.h"
-#include "ext_source_rde/debug/src/rde_debug.h"
+#include "rde_debug.h"
 
 /** 
  * @todo this is temporary solution this setting should be in different file like rde_app_cfg.h
