@@ -12,7 +12,7 @@
 #include "sw_timer.h"
 
 // this is added for use of assert facility
-#include "../../assert_gorenje/assert_gorenje.h"
+#include "assert_gorenje.h"
 
 //=================================================================================================
 //! @ingroup methods_declaration
