@@ -14,11 +14,6 @@
 #define ASSERT_HOT_SW_PACK(expr) ((void)0)
 #endif
 
-/**
- * @brief maximum number of task that can be set 
- */
-#define TASK_MAX    (10)
-#define SINGLE_MAX  (10)
 
 
 typedef struct
@@ -31,12 +26,12 @@ typedef struct
 /**
  * @brief main task queue
  */
-static task_t tasks_queue[TASK_MAX];
+static task_t tasks_queue[SCHEDULER_TASK_MAX];
 
 /**
  * @brief single shot task queue those calls are executed as soon as possible 
  */
-static void (*singleShot_queue[SINGLE_MAX])(void);
+static void (*singleShot_queue[SCHEDULER_SINGLE_MAX])(void);
 
 
 //=============================================================
@@ -158,7 +153,7 @@ void task_exe(void)
 
 void add_task(void (*p_task)(void), uint32_t periode)
 {
-    if (Scheduler._task_cnt < TASK_MAX)
+    if (Scheduler._task_cnt < SCHEDULER_TASK_MAX)
     {
         tasks_queue[Scheduler._task_cnt].tm_periode = periode;
         tasks_queue[Scheduler._task_cnt].tm_elapsed += Scheduler._task_cnt; // to offset the task
@@ -177,7 +172,7 @@ void new_singleShot(void (*single_fptr)(void))
 {
     singleShot_queue[Scheduler._single_shot_task_cnt] = single_fptr;
 
-    if (Scheduler._single_shot_task_cnt < SINGLE_MAX)
+    if (Scheduler._single_shot_task_cnt < SCHEDULER_SINGLE_MAX)
     {
         ++Scheduler._single_shot_task_cnt;
     }

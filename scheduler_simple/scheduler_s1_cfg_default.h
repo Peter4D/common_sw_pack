@@ -20,5 +20,18 @@
 #define SCHEDULER_TICK_MS      1
 #endif
 
+/**
+ * @brief maximum number of task that can be set 
+ */
+#ifndef SCHEDULER_TASK_MAX
+#define SCHEDULER_TASK_MAX    15
+#endif
+
+/**
+ * @brief maximum number of quick single shot calls (task) that can be in queue
+ */
+#ifndef SCHEDULER_SINGLE_MAX
+#define SCHEDULER_SINGLE_MAX  10
+#endif
 
 #endif /* SCHEDULER_S1_CFG_DEFAULT_H */
