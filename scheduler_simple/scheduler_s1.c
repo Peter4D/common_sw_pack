@@ -100,6 +100,10 @@ void run(void)
     {
         for (i = 0; i < Scheduler._task_cnt; ++i)
         {
+            #if (SCHEDULER_NO_PRIORITY_BY_ORDER_SW == 0)
+                task_select = i;
+            #endif
+
             p_task = &tasks_queue[task_select];
             if (p_task->tm_elapsed > p_task->tm_periode)
             {
@@ -109,14 +113,16 @@ void run(void)
                 break;
             }
 
-            if (task_select < (Scheduler._task_cnt - 1))
-            {
-                ++task_select;
-            }
-            else
-            {
-                task_select = 0;
-            }
+            #if (SCHEDULER_NO_PRIORITY_BY_ORDER_SW == 1)
+                if (task_select < (Scheduler._task_cnt - 1))
+                {
+                    ++task_select;
+                }
+                else
+                {
+                    task_select = 0;
+                }
+            #endif
         }
 
         if (Scheduler._single_shot_task_cnt > 0)
