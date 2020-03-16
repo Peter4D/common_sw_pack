@@ -12,6 +12,10 @@
 #ifndef SCHEDULER_S1_H_
 #define SCHEDULER_S1_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 
 
@@ -39,5 +43,9 @@ typedef struct
  */
 extern scheduler_t Scheduler;
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* SCHEDULER_S1_H_ */
