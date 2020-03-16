@@ -35,6 +35,7 @@ typedef struct
     uint8_t _active_task_ID;
     uint8_t _task_cnt;
     uint8_t _single_shot_task_cnt;
+    uint8_t _fail_cnt;
 
 } scheduler_t;
 

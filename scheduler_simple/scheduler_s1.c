@@ -2,7 +2,7 @@
 #include "scheduler_s1.h"
 
 /* dependencies */
-//#include "assert_gorenje.h"
+//#include "assert_hot_sw_pack.h"
 #include "rde_debug.h"
 
 /** 
@@ -76,7 +76,8 @@ scheduler_t Scheduler = {
     ._single_active_F       = 0,
     ._active_task_ID        = 0,
     ._task_cnt              = 0,
-    ._single_shot_task_cnt  = 0
+    ._single_shot_task_cnt  = 0,
+    ._fail_cnt              = 0 
 };
 
 
@@ -98,6 +99,7 @@ void run(void)
     /* if no task is currently executing scheduler select next task to be executed */
     if (Scheduler._single_active_F == 0 && Scheduler._task_active_F == 0)
     {
+        Scheduler._fail_cnt = 0;
         for (i = 0; i < Scheduler._task_cnt; ++i)
         {
             #if (SCHEDULER_NO_PRIORITY_BY_ORDER_SW == 0)
@@ -132,8 +134,10 @@ void run(void)
     }
     else
     {
+        ++Scheduler._fail_cnt;
         // task  take to much time
-        ASSERT_HOT_SW_PACK(0);
+        //ASSERT_HOT_SW_PACK(0);
+        ASSERT_HOT_SW_PACK(Scheduler._fail_cnt < SCHEDULER_TIME_OUT);
     }
 }
 

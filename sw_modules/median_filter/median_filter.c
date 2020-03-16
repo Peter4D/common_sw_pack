@@ -2,8 +2,8 @@
 #include "median_filter.h"
 #include <string.h>
 /* dependencies */
-#include "../../assert_gorenje/assert_gorenje.h"
-#include "../sort/bubble_sort.h"
+#include "assert_hot_sw_pack"
+#include "bubble_sort.h"
 
 #undef _inline
 
@@ -107,7 +107,7 @@ median_value_t get_median(median_desc_t *pDesc, median_value_t data) {
     median_data_t *pWindow = (median_data_t*)pDesc->pBuffer;
     uint8_t old_val_idx = 0;
 
-    assert(pDesc != NULL);
+    ASSERT_HOT_SW_PACK(pDesc != NULL);
 
     /* index of the value in window that will be removed */
     old_val_idx = find_index(pDesc);
@@ -136,8 +136,8 @@ uint8_t find_index(median_desc_t *pDesc) {
 }
 
 void filter_median_init(median_desc_t *pDesc, median_data_t *pData, size_t size) {
-    assert(pData != NULL);
-    assert(pDesc != NULL);
+    ASSERT_HOT_SW_PACK(pData != NULL);
+    ASSERT_HOT_SW_PACK(pDesc != NULL);
     
     pDesc->window_fill_F = 0;
     pDesc->newData_idx = 0;

@@ -1,5 +1,5 @@
 /**
- * @file assert_gorenje.h
+ * @file assert_hot_sw_pack.h
  * @author Peter Medvesek (peter.medvesek@gorenje.com)
  * @brief 
  * @version 1.0
@@ -9,8 +9,8 @@
  * 
  */
 
-#ifndef _ASSERT_GORENJE_
-#define _ASSERT_GORENJE_
+#ifndef _ASSERT_HOT_SW_PACK_
+#define _ASSERT_HOT_SW_PACK_
 
 #include <stdint.h>
 
@@ -25,4 +25,4 @@ extern void assert_hot_sw_pack_failed(uint8_t* file, uint32_t line);
 #define ASSERT_HOT_SW_PACK(expr) ((expr) ? (void)0 : assert_hot_sw_pack_failed((uint8_t*)__FILE__, __LINE__))
 
 
-#endif //_ASSERT_GORENJE_
+#endif //_ASSERT_HOT_SW_PACK_

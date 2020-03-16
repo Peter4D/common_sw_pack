@@ -42,4 +42,12 @@
 #define SCHEDULER_NO_PRIORITY_BY_ORDER_SW  0
 #endif
 
+/**
+ * @brief This set number of time that scheduler detect busy state... taks is still executing
+ * e.g. if set to 5 and scheduler run every 1 ms this means that one task is stalling for 5 ms 
+ */
+#ifndef SCHEDULER_TIME_OUT
+#define SCHEDULER_TIME_OUT  5
+#endif
+
 #endif /* SCHEDULER_S1_CFG_DEFAULT_H */
