@@ -2,7 +2,7 @@
 #include "median_filter.h"
 #include <string.h>
 /* dependencies */
-#include "assert_hot_sw_pack"
+#include "assert_hot_sw_pack.h"
 #include "bubble_sort.h"
 
 #undef _inline
