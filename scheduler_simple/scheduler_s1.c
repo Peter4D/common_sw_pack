@@ -148,8 +148,10 @@ void task_exe(void)
     // single shot events
     if (Scheduler._single_active_F)
     {
-        singleShot_queue[Scheduler._single_shot_task_cnt]();
         --Scheduler._single_shot_task_cnt;
+        
+        singleShot_queue[Scheduler._single_shot_task_cnt]();
+        
         Scheduler._single_active_F = 0;
     }
 
