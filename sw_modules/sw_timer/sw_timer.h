@@ -16,8 +16,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-/* global application modules settings file */
-//#include "rde_app_config.h"
+/** @note you need to implement this file in your application (it can be empty if no need to change any settings) */
+#include "rde_app_config.h"
 #include "sw_timer_cfg_default.h"
 
 #ifdef __cplusplus

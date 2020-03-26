@@ -19,12 +19,11 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-/**
- * @brief change this if you want to use this filter on different data types. But you can not use 
- * different types simultaneously. This is limitation of C language, that lacking templates, ...
- * or my imaginations :)
- */
-typedef int32_t median_value_t; 
+/** @note you need to implement this file in your application (it can be empty if no need to change any settings) */
+#include "rde_app_config.h"
+#include "median_filter_cfg_default.h"
+
+
 
 //=================================================================================================
 // data types 

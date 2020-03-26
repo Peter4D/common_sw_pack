@@ -18,8 +18,8 @@ extern "C" {
 
 #include <stdint.h>
 
-
-//#include "rde_app_config.h"
+/** @note you need to implement this file in your application (it can be empty if no need to change any settings) */
+#include "rde_app_config.h"
 #include "scheduler_s1_cfg_default.h"
 
 

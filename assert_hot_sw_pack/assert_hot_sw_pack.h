@@ -14,14 +14,16 @@
 
 #include <stdint.h>
 
-/* @note: this is here fo safety if user is not aware of assert it is better to be disabled
-comment out this if you want to use assert feature !! */
-#define NDEBUG
+/** @note you need to implement this file in your application (it can be empty if no need to change any settings) */
+#include "rde_app_config.h"
+#include "assert_hot_sw_pack_cfg_default.h"
 
+#if (ASSERT_HOT_SW_PACK_DEBUG_EN == 0)
+#define NDEBUG
+#endif
 
 extern void assert_hot_sw_pack_failed(uint8_t* file, uint32_t line);
 
-//#undef assert
 #define ASSERT_HOT_SW_PACK(expr) ((expr) ? (void)0 : assert_hot_sw_pack_failed((uint8_t*)__FILE__, __LINE__))
 
 
