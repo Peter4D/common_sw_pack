@@ -6,7 +6,9 @@
 #include "bubble_sort.h"
 
 
-//#define _inline          @inline
+#if defined(__GNUC__) 
+#define _inline          inline
+#endif
 
 #ifndef _inline
     #error provide inline keyword

@@ -65,7 +65,7 @@ uint8_t test_median_filter(void) {
 
     for(i = 0; i < TEST_DATA_SIZE; i++) {
         /* function under test */
-        test_rezult_data[i] = filter_median_get(&median_ch1_desc, test_dat.pTest_data[i]);
+        test_rezult_data[i] = filter_median_put(&median_ch1_desc, test_dat.pTest_data[i]);
     }
 
     size_in_uint8 = TEST_DATA_SIZE * sizeof( test_dat.pRef_result[0]);

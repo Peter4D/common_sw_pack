@@ -1,13 +1,15 @@
 
-#include <string.h>
-
-/* dependencies */
-#include "assert_gorenje.h"
 #include "median_filter.h"
+#include <string.h>
+/* dependencies */
+#include "assert_hot_sw_pack.h"
 #include "bubble_sort.h"
 
 #undef _inline
-#define _inline          @inline
+
+#if defined(__GNUC__)
+    #define _inline     __attribute__((always_inline))
+#endif
 
 #ifndef _inline
     #error provide inline keyword
@@ -15,7 +17,7 @@
 #endif
 
 /**
- * @brief helper function of filter_median_get. put new value in right place and return median value
+ * @brief helper function of filter_median_put. put new value in right place and return median value
  * 
  * @param pDesc      : pointer to median stuct descriptor  
  * @param data      : new data that go into a filter 
@@ -55,7 +57,7 @@ uint8_t compare_median (const void *a, const void *b){
     }
 }
 
-median_value_t filter_median_get(median_desc_t *pDesc, median_value_t newData) {
+median_value_t filter_median_put(median_desc_t *pDesc, median_value_t newData) {
     median_data_t *pWindow = (median_data_t*)pDesc->pBuffer;
        
     median_value_t return_val = 0;
@@ -105,7 +107,7 @@ median_value_t get_median(median_desc_t *pDesc, median_value_t data) {
     median_data_t *pWindow = (median_data_t*)pDesc->pBuffer;
     uint8_t old_val_idx = 0;
 
-    assert(pDesc != NULL);
+    ASSERT_HOT_SW_PACK(pDesc != NULL);
 
     /* index of the value in window that will be removed */
     old_val_idx = find_index(pDesc);
@@ -134,12 +136,16 @@ uint8_t find_index(median_desc_t *pDesc) {
 }
 
 void filter_median_init(median_desc_t *pDesc, median_data_t *pData, size_t size) {
-    assert(pData != NULL);
-    assert(pDesc != NULL);
+    ASSERT_HOT_SW_PACK(pData != NULL);
+    ASSERT_HOT_SW_PACK(pDesc != NULL);
     
     pDesc->window_fill_F = 0;
     pDesc->newData_idx = 0;
 
     pDesc->pBuffer = pData;
     pDesc->buff_size = (uint8_t)size;
+}
+
+median_value_t filter_median_get(median_desc_t *pDesc) {
+    return (pDesc->pBuffer[pDesc->buff_size >> 1].data);    
 }

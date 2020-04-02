@@ -1,19 +1,36 @@
+/**
+ * @file sw_timer_test.c
+ * @author Peter Medvesek (peter.medvesek@gorenje.com)
+ * @brief 
+ * @version 1.0
+ * @date 2019-12-16 (created)
+ * @date 2020-02-26 (revision)
+ * 
+ * @copyright Copyright (c) 2020 Gorenje d.o.o
+ * 
+ */
 #include "sw_timer_test.h"
-#include "sw_timer.h"
 
-/* optional include, depend on your project */
-//#include "app_debug.h"
 
-/* 1 second if timer resolution is 1ms */
+/* 1 second */
 #define CALL_PERIODE        (1000)
 
-sw_timer_t test_timer;
+/**
+ * @brief instance of software timer object (control struct instance)
+ */
+static sw_timer_t test_timer;
 
+static void (*sw_timer_test_extern_callback)(void) = NULL;
+
+/**
+ * @brief timer instance callback function 
+ */
 void test_timer_cb(void);
 
-void sw_timer_test(void) {
-    /* init debug pin */
-    //DEBUG_init();
+void sw_timer_test_init(void (*ext_cb)(void)) {
+    /* user can set project specific function that for example manipulate digital output and check
+    timing on effected pin with osciloscope */
+    sw_timer_test_extern_callback = ext_cb;
 
     swTimer_init(&test_timer);
     swTimer.attach_callBack(&test_timer, test_timer_cb);
@@ -21,11 +38,11 @@ void sw_timer_test(void) {
     swTimer.set(&test_timer, CALL_PERIODE);
 }
 
-
 void test_timer_cb(void) {
-    /* user can chack timing on effected pin with osciloscope */
-    //debug_pin_PE6_toggle();
 
+    if(sw_timer_test_extern_callback != NULL) {
+        sw_timer_test_extern_callback();
+    }
     /* set nex cycle */
     swTimer.set(&test_timer, CALL_PERIODE);
 }

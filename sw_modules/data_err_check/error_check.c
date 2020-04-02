@@ -25,10 +25,10 @@
 	#define ERR_CHECK_METHOD	(_USE_CRC)
 #endif
 	
-void error_check(uint8_t* data, size_t size, uint8_t* error_check_out)
+void error_check(uint8_t* pData, size_t size, uint8_t* pError_check_out)
 {
     #if(ERR_CHECK_METHOD == _USE_CRC)
-        get_crc8(data, size, error_check_out);
+        get_crc8(pData, size, pError_check_out);
 
     #elif(ERR_CHECK_METHOD == _USE_CHECK_SUM)
         check_sum(data, size, error_check_out);
