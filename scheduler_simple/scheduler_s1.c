@@ -2,13 +2,13 @@
 #include "scheduler_s1.h"
 
 /* dependencies */
-//#include "assert_hot_sw_pack.h"
-#include "rde_debug.h"
+#include "assert_hot_sw_pack.h"
+//#include "rde_debug.h"
 
 /** 
  * @todo this is temporary solution this setting should be in different file like rde_app_cfg.h
 */
-#define ASSERT_HOT_SW_PACK(expr) RDE_ASSERT(expr)
+//#define ASSERT_HOT_SW_PACK(expr) RDE_ASSERT(expr)
 
 #ifndef ASSERT_HOT_SW_PACK
 #define ASSERT_HOT_SW_PACK(expr) ((void)0)
