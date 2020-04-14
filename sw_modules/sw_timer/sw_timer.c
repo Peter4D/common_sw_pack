@@ -25,6 +25,13 @@
 static void pause(sw_timer_t* pThis);
 
 /**
+ * @brief set paused timer back to active state
+ * 
+ * @param pThis : Pointer to instance of software timer object(control struct).
+ */
+static void resume(sw_timer_t* pThis);
+
+/**
  * @brief : Return 1 if timer reaches setted value.
  * 
  * @param pThis     : Pointer to instance of software timer object(control struct).
@@ -83,13 +90,14 @@ static uint32_t getTime(sw_timer_t* pThis);
 static uint8_t sw_tm_getNewSlot(sw_timer_t* pThis);
 
 const struct _sw_timer_methods swTimer = {
-    &set,
-    &reSet,
-    &clear,
-    &getTime, 
-    &pause, 
-    &isElapsed, 
-    &attach_callBack 
+    .set = &set,
+    .reSet = &reSet,
+    .clear = &clear,
+    .getTime = &getTime, 
+    .pause = &pause, 
+    .resume = &resume,
+    .isElapsed = &isElapsed, 
+    .attach_callBack = &attach_callBack 
 };
 
 
@@ -169,6 +177,10 @@ static uint32_t getTime(sw_timer_t* pThis) {
 
 static void pause(sw_timer_t* pThis) {
     pThis->_status = SWTM_PAUSE;
+}
+
+static void resume(sw_timer_t* pThis){
+    pThis->_status = SWTM_RUNNING;
 }
 
 static uint8_t isElapsed(sw_timer_t* pThis) {

@@ -54,6 +54,7 @@ struct _sw_timer_methods{
     void     (*clear)           (struct _sw_tmr*);
     uint32_t (*getTime)         (struct _sw_tmr*);
     void     (*pause)           (struct _sw_tmr*);
+    void     (*resume)          (struct _sw_tmr*);
     bool     (*isElapsed)       (struct _sw_tmr*);
     void     (*attach_callBack) (struct _sw_tmr*, pF_swTm);
 };
