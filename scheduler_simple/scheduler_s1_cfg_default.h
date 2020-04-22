@@ -37,6 +37,7 @@
 /**
  * @brief _SW designate switch (1 | 0) if set to 1 then task will not have priority inhered by 
  * order in which was listed (called Scheduler.add())
+ * @todo not used 
  */
 #ifndef SCHEDULER_NO_PRIORITY_BY_ORDER_SW
 #define SCHEDULER_NO_PRIORITY_BY_ORDER_SW  0

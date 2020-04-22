@@ -96,49 +96,54 @@ void run(void)
         p_task->tm_elapsed += SCHEDULER_TICK_MS;
     }
 
+    if (Scheduler._single_shot_task_cnt > 0)
+    {
+        Scheduler._single_active_F = 1;
+    }
+
     /* if no task is currently executing scheduler select next task to be executed */
-    if (Scheduler._single_active_F == 0 && Scheduler._task_active_F == 0)
-    {
-        Scheduler._fail_cnt = 0;
-        for (i = 0; i < Scheduler._task_cnt; ++i)
-        {
-            #if (SCHEDULER_NO_PRIORITY_BY_ORDER_SW == 0)
-                task_select = i;
-            #endif
+    // if (Scheduler._single_active_F == 0 && Scheduler._task_active_F == 0)
+    // {
+    //     Scheduler._fail_cnt = 0;
+    //     for (i = 0; i < Scheduler._task_cnt; ++i)
+    //     {
+    //         #if (SCHEDULER_NO_PRIORITY_BY_ORDER_SW == 0)
+    //             task_select = i;
+    //         #endif
 
-            p_task = &tasks_queue[task_select];
-            if (p_task->tm_elapsed > p_task->tm_periode)
-            {
-                p_task->tm_elapsed = 0;
-                Scheduler._active_task_ID = task_select;
-                Scheduler._task_active_F = 1;
-                break;
-            }
+    //         p_task = &tasks_queue[task_select];
+    //         if (p_task->tm_elapsed >= p_task->tm_periode) //! @todo should be >= ?? 
+    //         {
+    //             p_task->tm_elapsed = 0;
+    //             Scheduler._active_task_ID = task_select;
+    //             Scheduler._task_active_F = 1;
+    //             break;
+    //         }
 
-            #if (SCHEDULER_NO_PRIORITY_BY_ORDER_SW == 1)
-                if (task_select < (Scheduler._task_cnt - 1))
-                {
-                    ++task_select;
-                }
-                else
-                {
-                    task_select = 0;
-                }
-            #endif
-        }
+    //         #if (SCHEDULER_NO_PRIORITY_BY_ORDER_SW == 1)
+    //             if (task_select < (Scheduler._task_cnt - 1))
+    //             {
+    //                 ++task_select;
+    //             }
+    //             else
+    //             {
+    //                 task_select = 0;
+    //             }
+    //         #endif
+    //     }
 
-        if (Scheduler._single_shot_task_cnt > 0)
-        {
-            Scheduler._single_active_F = 1;
-        }
-    }
-    else
-    {
-        ++Scheduler._fail_cnt;
-        // task  take to much time
-        //ASSERT_HOT_SW_PACK(0);
-        ASSERT_HOT_SW_PACK(Scheduler._fail_cnt < SCHEDULER_TIME_OUT);
-    }
+    //     if (Scheduler._single_shot_task_cnt > 0)
+    //     {
+    //         Scheduler._single_active_F = 1;
+    //     }
+    // }
+    // else
+    // {
+    //     ++Scheduler._fail_cnt;
+    //     // task  take to much time
+    //     //ASSERT_HOT_SW_PACK(0);
+    //     ASSERT_HOT_SW_PACK(Scheduler._fail_cnt < SCHEDULER_TIME_OUT);
+    // }
 }
 
 void task_exe(void)
@@ -155,12 +160,21 @@ void task_exe(void)
         Scheduler._single_active_F = 0;
     }
 
-    if (Scheduler._task_active_F)
-    {
-        p_task = &tasks_queue[Scheduler._active_task_ID];
-        p_task->task_run();
-        Scheduler._task_active_F = 0;
+    for(uint8_t i = 0; i < Scheduler._task_cnt; ++i) {
+        p_task = &tasks_queue[i];
+        if(p_task->tm_elapsed >= p_task->tm_periode) {
+            p_task->task_run();
+            p_task->tm_elapsed = 0;
+        }
     }
+
+    // if (Scheduler._task_active_F)
+    // {
+        
+    //     p_task = &tasks_queue[Scheduler._active_task_ID];
+    //     p_task->task_run();
+    //     Scheduler._task_active_F = 0;
+    // }
 }
 
 void add_task(void (*p_task)(void), uint32_t periode)
