@@ -28,10 +28,10 @@ typedef struct
     void (*run)(void);
     void (*task_exe)(void);
     void (*add_task)(void (*task)(void), uint32_t periode);
+    void (*remove_task)(void (*task)(void));
     void (*new_singleShot)(void (*single_fptr)(void));
 
     uint8_t _task_active_F;
-    uint8_t _single_active_F;
     uint8_t _active_task_ID;
     uint8_t _task_cnt;
     uint8_t _single_shot_task_cnt;

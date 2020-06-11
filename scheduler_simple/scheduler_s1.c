@@ -1,6 +1,6 @@
 
 #include "scheduler_s1.h"
-
+#include <stddef.h>
 /* dependencies */
 #include "assert_hot_sw_pack.h"
 //#include "rde_debug.h"
@@ -14,11 +14,9 @@
 #define ASSERT_HOT_SW_PACK(expr) ((void)0)
 #endif
 
-
-
 typedef struct
 {
-    void (*task_run)(void);
+    void (*task)(void);
     uint32_t tm_periode;
     uint32_t tm_elapsed;
 } task_t;
@@ -56,6 +54,13 @@ void task_exe(void);
 void add_task(void (*task)(void), uint32_t periode);
 
 /**
+ * @brief Remove taks from schedule table 
+ * 
+ * @param p_task : taks that will be removed from schedule table
+ */
+void remove_task(void (*p_task)(void));
+
+/**
  * @brief add new single shot task or function call. This is executed only once and is removed from queue
  * 
  * @param single_fptr   : Function pointer to function that will be executed as single shot 
@@ -68,12 +73,12 @@ void _dummy(void);
 /* if this systax do not compile: remove: ( .xy = ) */
 scheduler_t Scheduler = {
     .add_task       = &add_task,
+    .remove_task    = &remove_task,
     .new_singleShot = &new_singleShot,
     .run            = &run,
     .task_exe       = &task_exe,
 
     ._task_active_F         = 0,
-    ._single_active_F       = 0,
     ._active_task_ID        = 0,
     ._task_cnt              = 0,
     ._single_shot_task_cnt  = 0,
@@ -96,52 +101,64 @@ void run(void)
         p_task->tm_elapsed += SCHEDULER_TICK_MS;
     }
 
-    if (Scheduler._single_shot_task_cnt > 0)
-    {
-        Scheduler._single_active_F = 1;
-    }
-
-    
 }
 
 void task_exe(void)
 {
     task_t *p_task;
 
-    // single shot events
-    if (Scheduler._single_active_F)
-    {
-        --Scheduler._single_shot_task_cnt;
-        
-        singleShot_queue[Scheduler._single_shot_task_cnt]();
-        
-        Scheduler._single_active_F = 0;
-    }
-
     for(uint8_t i = 0; i < Scheduler._task_cnt; ++i) {
         p_task = &tasks_queue[i];
         if(p_task->tm_elapsed >= p_task->tm_periode) {
-            p_task->task_run();
+            p_task->task();
             p_task->tm_elapsed = 0;
         }
+    }
+
+    // single shot events
+    if (Scheduler._single_shot_task_cnt > 0)
+    {
+        --Scheduler._single_shot_task_cnt;
+
+        singleShot_queue[Scheduler._single_shot_task_cnt]();
     }
 
 }
 
 void add_task(void (*p_task)(void), uint32_t periode)
 {
-    if (Scheduler._task_cnt < SCHEDULER_TASK_MAX)
-    {
-        tasks_queue[Scheduler._task_cnt].tm_periode = periode;
-        tasks_queue[Scheduler._task_cnt].tm_elapsed += Scheduler._task_cnt; // to offset the task
-        tasks_queue[Scheduler._task_cnt].task_run = p_task;
-        ++Scheduler._task_cnt;
-    }
-    else
-    {
+    task_t* p_slot;
+
+    if(Scheduler._task_cnt >= SCHEDULER_TASK_MAX) {
         // max task reached
-        //RDE_ASSERT(0); 
         ASSERT_HOT_SW_PACK(0);
+    }else {
+        for(uint8_t i = 0; i < SCHEDULER_TASK_MAX; ++i){
+            p_slot = &tasks_queue[i];
+
+            if(p_slot->task == NULL) {
+                p_slot->task = p_task;
+                p_slot->tm_periode = periode;
+                p_slot->tm_elapsed += i;
+
+                ++Scheduler._task_cnt;
+                break;
+            }
+        }
+    }
+}
+
+void remove_task(void (*p_task)(void)) {
+    task_t* p_slot;
+
+    for(uint8_t i = 0; i < SCHEDULER_TASK_MAX; ++i) {
+        p_slot = &tasks_queue[i];
+        
+        if(p_slot->task == p_task) {
+            p_slot->task = NULL;
+            --Scheduler._task_cnt;
+            break;
+        }
     }
 }
 
