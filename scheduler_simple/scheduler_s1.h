@@ -1,9 +1,9 @@
 /**
  * @file scheduler_s1.h
  * @author Peter Medvesek (peter.medvesek@gorenje.com)
- * @brief  @todo make a revision !!
- * @version 1.1
- * @date 2017-12-11; revision 2020_04_22
+ * @brief 
+ * @version 1.2
+ * @date 2017-12-11; revision 2020_06_16
  * 
  * @copyright Copyright (c) 2020 Gorenje d.o.o
  * 
