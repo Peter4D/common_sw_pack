@@ -1,5 +1,5 @@
 /**
- * @file sw_timer_cfg_default.h
+ * @file HOT_sw_timer_cfg_default.h
  * @author Peter Medvesek (peter.medvesek@gorenje.com)
  * @brief This file contain default sttings for this sw_timer module.  if some setting need to be altered 
  * user need to provide file: app_global_config.h and #define USE_GLOBAL_APP_CFG  !
@@ -11,6 +11,12 @@
  */
 #ifndef SW_TIMER_CFG_DEFAULT_H
 #define SW_TIMER_CFG_DEFAULT_H
+
+/** @note @todo not in use */
+#ifndef SW_TIMER_ENABLED
+#define SW_TIMER_ENABLED    1
+#endif
+
 
 /**
  * @brief This set software timer tick resolution in milliseconds. This need to be changed if timer is driver at 

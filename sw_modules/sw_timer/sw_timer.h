@@ -18,7 +18,7 @@
 
 /** @note you need to implement this file in your application (it can be empty if no need to change any settings) */
 #include "rde_app_config.h"
-#include "sw_timer_cfg_default.h"
+#include "HOT_sw_timer_cfg_default.h"
 
 #ifdef __cplusplus
 extern "C" {
