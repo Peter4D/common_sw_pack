@@ -146,12 +146,16 @@ void swTimer_tick(void) {
 
 /* constructor */
 void swTimer_init(sw_timer_t* pThis) {
-    sw_tm_getNewSlot(pThis);
+    if(pThis->_init_F == 0) {
+        sw_tm_getNewSlot(pThis);
 
-    pThis->_status = SWTM_STOP;
-    pThis->_cnt = 0;
-    pThis->_set_value = 0;
-    pThis->_callback_fptr = NULL;
+        pThis->_status = SWTM_STOP;
+        pThis->_cnt = 0;
+        pThis->_set_value = 0;
+        pThis->_callback_fptr = NULL;
+
+        pThis->_init_F = 1;
+    }
 }
 
 

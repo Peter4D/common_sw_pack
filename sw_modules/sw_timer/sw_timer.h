@@ -40,6 +40,7 @@ typedef void (*pF_swTm)(void);
 
 typedef struct _sw_tmr{
     //private:
+    uint8_t         _init_F;
     uint32_t        _cnt;
     uint32_t        _set_value;
     sw_tmr_status_t _status;
