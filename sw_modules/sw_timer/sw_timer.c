@@ -48,6 +48,15 @@ static uint8_t isElapsed(sw_timer_t* pThis);
 static void attach_callBack(sw_timer_t* pThis, pF_swTm callback);
 
 /**
+ * @brief Set callback arguments pointer
+ * 
+ * @param pThis     : Pointer to an instance of software timer object(control struct).
+ * @param p_arg     : pointer to argument that will be pass into callback function  
+ *                  when will be called.
+ */
+static void set_callBack_arg(sw_timer_t* pThis, void* p_arg);
+
+/**
  * @brief : Set timer to set_value and start it
  * 
  * @param pThis     : Pointer to instance of software timer object(control struct).
@@ -97,7 +106,8 @@ const struct _sw_timer_methods swTimer = {
     .pause = &pause, 
     .resume = &resume,
     .isElapsed = &isElapsed, 
-    .attach_callBack = &attach_callBack 
+    .attach_callBack = &attach_callBack,
+    .set_callBack_arg = &set_callBack_arg 
 };
 
 
@@ -134,11 +144,15 @@ void swTimer_tick(void) {
             
             if (pTimer->_cnt >= pTimer->_set_value && pTimer->_set_value != SWTM_CON_RUN) {
                 pTimer->_status = SWTM_ELAPSED;
-                pTimer->_cnt = 0;
-                
+
                 if (pTimer->_callback_fptr != NULL) {
-                    pTimer->_callback_fptr(); 
+                    pTimer->_callback_fptr(pTimer->p_callback_arg); 
                 }
+                /**  @todo this at the moment is needed. in callback user can check what was last set time,
+                 * but if used in polling mode (.isElapsed), this info is not available because of this 
+                 * line of code. ... refactor is this feature is needed: 
+                 */
+                pTimer->_cnt = 0; 
             }
         }
     }
@@ -153,6 +167,7 @@ void swTimer_init(sw_timer_t* pThis) {
         pThis->_cnt = 0;
         pThis->_set_value = 0;
         pThis->_callback_fptr = NULL;
+        pThis->p_callback_arg = NULL;
 
         pThis->_init_F = 1;
     }
@@ -197,4 +212,8 @@ static uint8_t isElapsed(sw_timer_t* pThis) {
 
 static void attach_callBack(sw_timer_t* pThis, pF_swTm callback) {
     pThis->_callback_fptr = callback;
+}
+
+static void set_callBack_arg(sw_timer_t* pThis, void* p_arg) {
+    pThis->p_callback_arg = p_arg;
 }

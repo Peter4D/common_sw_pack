@@ -36,7 +36,7 @@ typedef enum
     SWTM_MAX
 }sw_tmr_status_t;
 
-typedef void (*pF_swTm)(void);
+typedef void (*pF_swTm)(void* p_arg);
 
 typedef struct _sw_tmr{
     //private:
@@ -45,19 +45,21 @@ typedef struct _sw_tmr{
     uint32_t        _set_value;
     sw_tmr_status_t _status;
     pF_swTm         _callback_fptr;
+    void* p_callback_arg;
 }sw_timer_t;
 
 
 struct _sw_timer_methods{
     //public:
-    void     (*set)             (struct _sw_tmr*, uint32_t set_value);
-    void     (*reSet)           (struct _sw_tmr*, uint32_t set_value);
-    void     (*clear)           (struct _sw_tmr*);
-    uint32_t (*getTime)         (struct _sw_tmr*);
-    void     (*pause)           (struct _sw_tmr*);
-    void     (*resume)          (struct _sw_tmr*);
-    bool     (*isElapsed)       (struct _sw_tmr*);
-    void     (*attach_callBack) (struct _sw_tmr*, pF_swTm);
+    void     (*set)              (struct _sw_tmr*, uint32_t set_value);
+    void     (*reSet)            (struct _sw_tmr*, uint32_t set_value);
+    void     (*clear)            (struct _sw_tmr*);
+    uint32_t (*getTime)          (struct _sw_tmr*);
+    void     (*pause)            (struct _sw_tmr*);
+    void     (*resume)           (struct _sw_tmr*);
+    bool     (*isElapsed)        (struct _sw_tmr*);
+    void     (*attach_callBack)  (struct _sw_tmr*, pF_swTm);
+    void     (*set_callBack_arg) (struct _sw_tmr*, void* p_arg);
 };
 
 /**
