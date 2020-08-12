@@ -29,13 +29,14 @@ typedef struct
     void (*task_exe)(void);
     void (*add_task)(void (*task)(void), uint32_t periode);
     void (*remove_task)(void (*task)(void));
-    void (*new_singleShot)(void (*single_fptr)(void));
+    void (*new_singleShot)(void (*single_fptr)(void* p_arg), void* p_arg);
 
     uint8_t _task_active_F;
     uint8_t _active_task_ID;
     uint8_t _task_cnt;
     uint8_t _single_shot_task_cnt;
     uint8_t _fail_cnt;
+    void * p_single_shot_arg;
 
 } scheduler_t;
 

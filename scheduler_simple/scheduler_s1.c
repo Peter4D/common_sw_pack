@@ -65,7 +65,7 @@ void remove_task(void (*p_task)(void));
  * 
  * @param single_fptr   : Function pointer to function that will be executed as single shot 
  */
-void new_singleShot(void (*single_fptr)(void));
+void new_singleShot(void (*single_fptr)(void* p_arg), void* p_arg);
 
 void _dummy(void);
 //=============================================================
@@ -82,7 +82,8 @@ scheduler_t Scheduler = {
     ._active_task_ID        = 0,
     ._task_cnt              = 0,
     ._single_shot_task_cnt  = 0,
-    ._fail_cnt              = 0 
+    ._fail_cnt              = 0,
+    .p_single_shot_arg      = NULL 
 };
 
 
@@ -162,9 +163,10 @@ void remove_task(void (*p_task)(void)) {
     }
 }
 
-void new_singleShot(void (*single_fptr)(void))
+void new_singleShot(void (*single_fptr)(void* p_arg), void* p_arg)
 {
     singleShot_queue[Scheduler._single_shot_task_cnt] = single_fptr;
+    Scheduler.p_single_shot_arg = p_arg;
 
     if (Scheduler._single_shot_task_cnt < SCHEDULER_SINGLE_MAX)
     {
