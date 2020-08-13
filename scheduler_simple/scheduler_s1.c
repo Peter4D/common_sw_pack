@@ -29,7 +29,7 @@ static task_t tasks_queue[SCHEDULER_TASK_MAX];
 /**
  * @brief single shot task queue those calls are executed as soon as possible 
  */
-static void (*singleShot_queue[SCHEDULER_SINGLE_MAX])(void);
+static void (*singleShot_queue[SCHEDULER_SINGLE_MAX])(void* p_arg);
 
 
 //=============================================================
@@ -121,7 +121,7 @@ void task_exe(void)
     {
         --Scheduler._single_shot_task_cnt;
 
-        singleShot_queue[Scheduler._single_shot_task_cnt]();
+        singleShot_queue[Scheduler._single_shot_task_cnt](Scheduler.p_single_shot_arg);
     }
 
 }
