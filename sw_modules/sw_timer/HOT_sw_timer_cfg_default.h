@@ -33,7 +33,7 @@
  * @note This is a default value if need to be changed, do this in rde_app_config.h (global application settings file)
  */
 #ifndef SW_TM_INST_MAX
-#define SW_TM_INST_MAX      10
+#define SW_TM_INST_MAX      15
 #endif
 
 #endif /* SW_TIMER_CFG_DEFAULT_H */
