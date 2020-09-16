@@ -21,6 +21,11 @@ typedef struct
     uint32_t tm_elapsed;
 } task_t;
 
+typedef struct _singleShot_queue_t {
+    void(*exe)(void* p_arg);
+    void* p_arg;
+}singleShot_queue_t;
+
 /**
  * @brief main task queue
  */
@@ -29,7 +34,7 @@ static task_t tasks_queue[SCHEDULER_TASK_MAX];
 /**
  * @brief single shot task queue those calls are executed as soon as possible 
  */
-static void (*singleShot_queue[SCHEDULER_SINGLE_MAX])(void* p_arg);
+singleShot_queue_t singleShot_queue[SCHEDULER_SINGLE_MAX] = {0};
 
 
 //=============================================================
@@ -70,7 +75,6 @@ void new_singleShot(void (*single_fptr)(void* p_arg), void* p_arg);
 void _dummy(void);
 //=============================================================
 
-/* if this systax do not compile: remove: ( .xy = ) */
 scheduler_t Scheduler = {
     .add_task       = &add_task,
     .remove_task    = &remove_task,
@@ -83,7 +87,6 @@ scheduler_t Scheduler = {
     ._task_cnt              = 0,
     ._single_shot_task_cnt  = 0,
     ._fail_cnt              = 0,
-    .p_single_shot_arg      = NULL 
 };
 
 
@@ -119,9 +122,12 @@ void task_exe(void)
     // single shot events
     if (Scheduler._single_shot_task_cnt > 0)
     {
-        --Scheduler._single_shot_task_cnt;
+        singleShot_queue_t* p_sigle_exe;
 
-        singleShot_queue[Scheduler._single_shot_task_cnt](Scheduler.p_single_shot_arg);
+        --Scheduler._single_shot_task_cnt;
+        p_sigle_exe = &singleShot_queue[Scheduler._single_shot_task_cnt];
+
+        p_sigle_exe->exe(p_sigle_exe->p_arg);
     }
 
 }
@@ -165,8 +171,8 @@ void remove_task(void (*p_task)(void)) {
 
 void new_singleShot(void (*single_fptr)(void* p_arg), void* p_arg)
 {
-    singleShot_queue[Scheduler._single_shot_task_cnt] = single_fptr;
-    Scheduler.p_single_shot_arg = p_arg;
+    singleShot_queue[Scheduler._single_shot_task_cnt].exe = single_fptr;
+    singleShot_queue[Scheduler._single_shot_task_cnt].p_arg = p_arg;
 
     if (Scheduler._single_shot_task_cnt < SCHEDULER_SINGLE_MAX)
     {
