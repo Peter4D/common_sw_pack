@@ -125,7 +125,7 @@ static uint8_t sw_tm_getNewSlot(sw_timer_t* pThis) {
         ASSERT_HOT_SW_PACK(0);
         return 1; // max number of counter reached
     } else {
-        pSw_timers[sw_tm_slot_id] = pThis;	
+        pSw_timers[sw_tm_slot_id] = pThis;
         // count number of software_timers
         ++sw_tm_slot_id;
         return 0;
@@ -134,10 +134,9 @@ static uint8_t sw_tm_getNewSlot(sw_timer_t* pThis) {
 
 
 void swTimer_tick(void) {
-    uint8_t i = 0;
-    sw_timer_t *pTimer;
+    sw_timer_t *pTimer = NULL;
 
-    for (i; i < sw_tm_slot_id; ++i) {
+    for (uint8_t i = 0; i < sw_tm_slot_id; ++i) {
         pTimer = pSw_timers[i]; 
         if (pTimer->_status == SWTM_RUNNING) {
             pTimer->_cnt += SW_TIMER_TICK_MS;

@@ -171,15 +171,12 @@ void remove_task(void (*p_task)(void)) {
 
 void new_singleShot(void (*single_fptr)(void* p_arg), void* p_arg)
 {
-    singleShot_queue[Scheduler._single_shot_task_cnt].exe = single_fptr;
-    singleShot_queue[Scheduler._single_shot_task_cnt].p_arg = p_arg;
-
-    if (Scheduler._single_shot_task_cnt < SCHEDULER_SINGLE_MAX)
-    {
+    if(Scheduler._single_shot_task_cnt < SCHEDULER_SINGLE_MAX) {
+        singleShot_queue[Scheduler._single_shot_task_cnt].exe = single_fptr;
+        singleShot_queue[Scheduler._single_shot_task_cnt].p_arg = p_arg;
+        
         ++Scheduler._single_shot_task_cnt;
-    }
-    else
-    {
+    }else {
         // max number of unhandled single shot (or event )
         ASSERT_HOT_SW_PACK(0); 
     }
