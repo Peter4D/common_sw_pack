@@ -38,10 +38,10 @@ static void flush(struct _ringBuff_t *pThis);
 //=====================================================================================
 
 const struct _ringBuff_methods_t RingBuff = {
-    &push,
-    &get,
-    &get_nBytes,	
-    &flush
+    .push = &push,
+    .get = &get,
+    .get_nBytes = &get_nBytes,
+    .flush = &flush
 };
 
 /* constructor */
