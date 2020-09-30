@@ -56,14 +56,22 @@ void task_exe(void);
  * @param task      : function pointer to task funcion
  * @param periode   : execution periode of this task function
  */
-void add_task(void (*task)(void), uint32_t periode);
+
+/**
+ * @brief  Add new task in execution queue
+ * 
+ * @param task      : function pointer to task funcion.
+ * @param periode   : execution periode of this task function.
+ * @return uint8_t  : task id. use this id if task need to be removed with remove_task.
+ */
+uint8_t add_task(void (*task)(void), uint32_t periode);
 
 /**
  * @brief Remove taks from schedule table 
  * 
- * @param p_task : taks that will be removed from schedule table
+ * @param task_id : taks id that will be removed from schedule table.
  */
-void remove_task(void (*p_task)(void));
+void remove_task(uint8_t task_id);
 
 /**
  * @brief add new single shot task or function call. This is executed only once and is removed from queue
@@ -111,11 +119,14 @@ void task_exe(void)
 {
     task_t *p_task;
 
-    for(uint8_t i = 0; i < Scheduler._task_cnt; ++i) {
+    for(uint8_t i = 0; i < SCHEDULER_TASK_MAX; ++i) {
         p_task = &tasks_queue[i];
-        if(p_task->tm_elapsed >= p_task->tm_periode) {
-            p_task->task();
-            p_task->tm_elapsed = 0;
+        if(p_task->task != NULL) {
+
+            if(p_task->tm_elapsed >= p_task->tm_periode) {
+                p_task->task();
+                p_task->tm_elapsed = 0;
+            }
         }
     }
 
@@ -129,10 +140,9 @@ void task_exe(void)
 
         p_sigle_exe->exe(p_sigle_exe->p_arg);
     }
-
 }
 
-void add_task(void (*p_task)(void), uint32_t periode)
+uint8_t add_task(void (*p_task)(void), uint32_t periode)
 {
     task_t* p_slot;
 
@@ -149,24 +159,19 @@ void add_task(void (*p_task)(void), uint32_t periode)
                 p_slot->tm_elapsed += i;
 
                 ++Scheduler._task_cnt;
+                return i;
                 break;
             }
         }
     }
 }
 
-void remove_task(void (*p_task)(void)) {
-    task_t* p_slot;
+void remove_task(uint8_t task_id) {
 
-    for(uint8_t i = 0; i < SCHEDULER_TASK_MAX; ++i) {
-        p_slot = &tasks_queue[i];
-        
-        if(p_slot->task == p_task) {
-            p_slot->task = NULL;
-            --Scheduler._task_cnt;
-            break;
-        }
-    }
+    ASSERT_HOT_SW_PACK(task_id < SCHEDULER_TASK_MAX);
+
+    tasks_queue[task_id].task = NULL;
+    --Scheduler._task_cnt;
 }
 
 void new_singleShot(void (*single_fptr)(void* p_arg), void* p_arg)
