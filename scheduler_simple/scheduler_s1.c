@@ -102,17 +102,17 @@ scheduler_t Scheduler = {
 // methods implementations:
 void run(void)
 {
-    static uint8_t task_select = 0;
     task_t* p_task;
-    uint8_t i = 0;
-
+    
     /* Tasks timing handling */
-    for (i = 0; i < Scheduler._task_cnt; ++i)
+    for(uint8_t i = 0; i < SCHEDULER_TASK_MAX; ++i)
     {
         p_task = &tasks_queue[i];
-        p_task->tm_elapsed += SCHEDULER_TICK_MS;
-    }
+        if(p_task->task != NULL) {
 
+            p_task->tm_elapsed += SCHEDULER_TICK_MS;
+        }
+    }
 }
 
 void task_exe(void)
