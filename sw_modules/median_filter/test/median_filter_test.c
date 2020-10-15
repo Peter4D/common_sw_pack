@@ -18,7 +18,7 @@ median: 9
 median_desc_t median_ch1_desc;
 median_data_t median_ch1_win[MEDIAN_WIN_SIZE];
 
-median_value_t test_rezult_data[TEST_DATA_SIZE];
+median_value_t test_result_data[TEST_DATA_SIZE];
 
 //=================================================================================================
 /* test dataset is generated with MS excel */
@@ -65,11 +65,11 @@ uint8_t test_median_filter(void) {
 
     for(i = 0; i < TEST_DATA_SIZE; i++) {
         /* function under test */
-        test_rezult_data[i] = filter_median_put(&median_ch1_desc, test_dat.pTest_data[i]);
+        test_result_data[i] = filter_median_put(&median_ch1_desc, test_dat.pTest_data[i]);
     }
 
     size_in_uint8 = TEST_DATA_SIZE * sizeof( test_dat.pRef_result[0]);
-    cmpr_result = (uint8_t)memcmp(test_rezult_data, test_dat.pRef_result, size_in_uint8);
+    cmpr_result = (uint8_t)memcmp(test_result_data, test_dat.pRef_result, size_in_uint8);
 
     if(cmpr_result != 0) {
         /* test fail */
