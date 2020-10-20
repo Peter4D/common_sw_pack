@@ -168,10 +168,12 @@ uint8_t add_task(void (*p_task)(void), uint32_t periode)
 
 void remove_task(uint8_t task_id) {
 
-    ASSERT_HOT_SW_PACK(task_id < SCHEDULER_TASK_MAX);
-
-    tasks_queue[task_id].task = NULL;
-    --Scheduler._task_cnt;
+    //ASSERT_HOT_SW_PACK(task_id < SCHEDULER_TASK_MAX);
+    
+    if(task_id < SCHEDULER_TASK_MAX) {
+        tasks_queue[task_id].task = NULL;
+        --Scheduler._task_cnt;
+    }
 }
 
 void new_singleShot(void (*single_fptr)(void* p_arg), void* p_arg)
