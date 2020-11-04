@@ -17,6 +17,11 @@
 extern "C" {
 #endif
 
+typedef enum {
+    SET_OFF = 0,
+    SET_ON
+}on_off_e_t;
+
 #define ARRAY_LENGTH(array) (sizeof((array))/sizeof((array)[0]))
 
 
