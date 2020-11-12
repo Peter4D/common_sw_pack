@@ -156,7 +156,8 @@ uint8_t add_task(void (*p_task)(void), uint32_t periode)
             if(p_slot->task == NULL) {
                 p_slot->task = p_task;
                 p_slot->tm_periode = periode;
-                p_slot->tm_elapsed += i;
+                //p_slot->tm_elapsed += i;
+                p_slot->tm_elapsed = 0;
 
                 ++Scheduler._task_cnt;
                 return i;
