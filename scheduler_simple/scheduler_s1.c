@@ -74,6 +74,14 @@ uint8_t add_task(void (*task)(void), uint32_t periode);
 void remove_task(uint8_t task_id);
 
 /**
+ * @brief Get the active task id handle. Call this inside task function
+ * to obtain this task handl. handle can be then use to removet task 
+ * 
+ * @return uint8_t task handle
+ */
+uint8_t get_active_task_id(void);
+
+/**
  * @brief add new single shot task or function call. This is executed only once and is removed from queue
  * 
  * @param single_fptr   : Function pointer to function that will be executed as single shot 
@@ -84,11 +92,12 @@ void _dummy(void);
 //=============================================================
 
 scheduler_t Scheduler = {
-    .add_task       = &add_task,
-    .remove_task    = &remove_task,
-    .new_singleShot = &new_singleShot,
-    .run            = &run,
-    .task_exe       = &task_exe,
+    .add_task           = &add_task,
+    .remove_task        = &remove_task,
+    .get_active_task_id = &get_active_task_id,
+    .new_singleShot     = &new_singleShot,
+    .run                = &run,
+    .task_exe           = &task_exe,
 
     ._task_active_F         = 0,
     ._active_task_ID        = 0,
@@ -120,10 +129,12 @@ void task_exe(void)
     task_t *p_task;
 
     for(uint8_t i = 0; i < SCHEDULER_TASK_MAX; ++i) {
+        
         p_task = &tasks_queue[i];
         if(p_task->task != NULL) {
 
             if(p_task->tm_elapsed >= p_task->tm_periode) {
+                Scheduler._active_task_ID = i;
                 p_task->task();
                 p_task->tm_elapsed = 0;
             }
@@ -188,6 +199,10 @@ void new_singleShot(void (*single_fptr)(void* p_arg), void* p_arg)
         // max number of unhandled single shot (or event )
         ASSERT_HOT_SW_PACK(0); 
     }
+}
+
+uint8_t get_active_task_id(void) {
+    return Scheduler._active_task_ID;
 }
 
 void _dummy(void)
