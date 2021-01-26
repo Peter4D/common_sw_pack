@@ -31,7 +31,7 @@
  * @brief maximum number of quick single shot calls (task) that can be in queue
  */
 #ifndef SCHEDULER_SINGLE_MAX
-#define SCHEDULER_SINGLE_MAX  10
+#define SCHEDULER_SINGLE_MAX  15
 #endif
 
 
