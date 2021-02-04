@@ -17,8 +17,9 @@
 extern "C" {
 #endif
 
-#define SECOND_MS           1000
-#define MINUTE              SECOND_MS * 60
+#define SECOND              1000
+#define MINUTE              60 * SECOND
+#define HOUR                60 * MINUTE
 
 typedef enum {
     SET_OFF = 0,
