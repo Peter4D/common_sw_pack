@@ -166,7 +166,7 @@ void task_exe(void)
 uint8_t add_task(void (*p_task)(void), uint32_t periode)
 {
     task_t* p_slot;
-    uint8_t task_id = 0xFF;
+    uint8_t task_id = SCHEDULER_TASK_ID_INVALID;
 
     if(Scheduler._task_cnt >= SCHEDULER_TASK_MAX) {
         // max task reached

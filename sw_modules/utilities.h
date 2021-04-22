@@ -28,6 +28,10 @@ typedef enum {
 
 #define ARRAY_LENGTH(array) (sizeof((array))/sizeof((array)[0]))
 
+#define BIT_SET(var, bit, set_clear)                    \
+    if( set_clear == 1) { var |= (1 << bit); }          \ 
+    else if( set_clear == 0) { var &= ~(1 << bit); } 
+
 
 #ifdef __cplusplus
 }

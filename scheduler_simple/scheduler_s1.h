@@ -22,6 +22,8 @@ extern "C" {
 #include "rde_app_config.h"
 #include "scheduler_s1_cfg_default.h"
 
+#define SCHEDULER_TASK_ID_INVALID  0xFF
+
 void scheduler_debug_msg_hook(const char* const prefix_msg, char* const debug_msg);
 typedef struct
 {
