@@ -111,23 +111,27 @@ const struct _sw_timer_methods swTimer = {
 };
 
 
-/* Array of pointers to instances of software timers. alternative will be linked list
-but if user do not use a lot of sw timers this is also adequate */
-sw_timer_t *pSw_timers[SW_TM_INST_MAX]; 
+static struct _m_sw_timer_t
+{
+    /* Array of pointers to instances of software timers. alternative will be linked list
+    but if user do not use a lot of sw timers this is also adequate */
+    sw_timer_t* p_timers_slot[SW_TM_INST_MAX];
+    uint8_t slot_id;
+}m = {
+    .slot_id = 0
+};
 
-/* track number of sw timer instances */
-static uint8_t sw_tm_slot_id = 0;
 
 static uint8_t sw_tm_getNewSlot(sw_timer_t* pThis) {
 
-    if (sw_tm_slot_id >= SW_TM_INST_MAX)
+    if (m.slot_id >= SW_TM_INST_MAX)
     {
         ASSERT_HOT_SW_PACK(0);
         return 1; // max number of counter reached
     } else {
-        pSw_timers[sw_tm_slot_id] = pThis;
+        m.p_timers_slot[m.slot_id] = pThis;
         // count number of software_timers
-        ++sw_tm_slot_id;
+        ++m.slot_id;
         return 0;
     }
 }
@@ -136,8 +140,8 @@ static uint8_t sw_tm_getNewSlot(sw_timer_t* pThis) {
 void swTimer_tick(void) {
     sw_timer_t *pTimer = NULL;
 
-    for (uint8_t i = 0; i < sw_tm_slot_id; ++i) {
-        pTimer = pSw_timers[i]; 
+    for (uint8_t i = 0; i < m.slot_id; ++i) {
+        pTimer = m.p_timers_slot[i]; 
         if (pTimer->_status == SWTM_RUNNING) {
             pTimer->_cnt += SW_TIMER_TICK_MS;
             
