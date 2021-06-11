@@ -1,5 +1,5 @@
 /**
- * @file scheduler_s1.h
+ * @file scheduler_classB.h
  * @author Peter Medvesek (peter.medvesek@gorenje.com)
  * @brief 
  * @version 1.2
@@ -9,8 +9,8 @@
  * 
  */
 
-#ifndef SCHEDULER_S1_H_
-#define SCHEDULER_S1_H_
+#ifndef SCHEDULER_CLASSB_H_
+#define SCHEDULER_CLASSB_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,6 +25,7 @@ extern "C" {
 #define SCHEDULER_TASK_ID_INVALID  0xFF
 
 void scheduler_debug_msg_hook(const char* const prefix_msg, char* const debug_msg);
+
 typedef struct
 {
     void (*run)(void);
@@ -34,23 +35,18 @@ typedef struct
     uint8_t (*get_active_task_id)(void);
     void (*new_singleShot)(void (*single_fptr)(void* p_arg), void* p_arg);
 
-    uint8_t _task_active_F;
-    uint8_t _active_task_ID;
-    uint8_t _task_cnt;              // only for debug 
-    uint8_t _single_shot_task_cnt;
-    uint8_t _fail_cnt;
-
 } scheduler_t;
 
 /**
  * @brief This is scheduler main structure that user use.
  */
-extern scheduler_t Scheduler;
+extern const scheduler_t Scheduler;
 
 void Scheduler_init(void);
+
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* SCHEDULER_S1_H_ */
+#endif /* SCHEDULER_CLASSB_H_ */
