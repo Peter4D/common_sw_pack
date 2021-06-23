@@ -26,6 +26,8 @@ extern "C" {
 
 // if this value is set for set value timer will run continuously
 #define SWTM_CON_RUN        (0u)
+#define SW_TIMER_SET_MS(x)  (x / SW_TIMER_TICK_MS)
+
 
 typedef enum 
 {

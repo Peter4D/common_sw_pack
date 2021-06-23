@@ -107,6 +107,8 @@ uint8_t get_active_task_id(void);
  */
 void new_singleShot(void (*single_fptr)(void* p_arg), void* p_arg);
 
+static uint8_t get_function_is_listed(void (*task)(void));
+
 void _dummy(void);
 //=============================================================
 
@@ -114,6 +116,7 @@ scheduler_t Scheduler = {
     .add_task           = &add_task,
     .remove_task        = &remove_task,
     .get_active_task_id = &get_active_task_id,
+    .get_function_is_listed = &get_function_is_listed,
     .new_singleShot     = &new_singleShot,
     .run                = &run,
     .task_exe           = &task_exe,
@@ -124,7 +127,6 @@ scheduler_t Scheduler = {
     ._single_shot_task_cnt  = 0,
     ._fail_cnt              = 0,
 };
-
 
 //=============================================================
 // methods implementations:
@@ -199,6 +201,21 @@ uint8_t add_task(void (*p_task)(void), uint32_t periode)
     }
 
     return task_id;
+}
+
+static uint8_t get_function_is_listed(void (*task)(void)) {
+    uint8_t ret_val = 0;
+
+    for(uint8_t i = 0; i < SCHEDULER_TASK_MAX; ++i) {
+        task_t* p_task = &tasks_queue[i];
+
+        if(p_task->task == task) {
+            ret_val = 1;
+            break;
+        }
+    }
+
+    return ret_val;
 }
 
 void remove_task(uint8_t task_id) {

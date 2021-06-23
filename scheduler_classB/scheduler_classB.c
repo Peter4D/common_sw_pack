@@ -121,6 +121,7 @@ const scheduler_t Scheduler = {
     .add_task           = &add_task,
     .remove_task        = &remove_task,
     .get_active_task_id = &get_active_task_id,
+    .get_function_is_listed = &get_function_is_listed,
     .new_singleShot     = &new_singleShot,
     .run                = &run,
     .task_exe           = &task_exe,
@@ -239,6 +240,22 @@ void remove_task(uint8_t task_id) {
 
     data_complement_set(&m, &m_inv, sizeof(m));    
 }
+
+static uint8_t get_function_is_listed(void (*task)(void)) {
+    uint8_t ret_val = 0;
+
+    for(uint8_t i = 0; i < SCHEDULER_TASK_MAX; ++i) {
+        task_t* p_task = &m.tasks_queue[i];
+
+        if(p_task->task == task) {
+            ret_val = 1;
+            break;
+        }
+    }
+
+    return ret_val;
+}
+
 
 void new_singleShot(void (*single_fptr)(void* p_arg), void* p_arg)
 {
