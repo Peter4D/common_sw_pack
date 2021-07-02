@@ -26,7 +26,8 @@ static const char debug_prefix_str[] = "scheduler:";
 
 typedef struct
 {
-    void (*task)(void);
+    void (*task)(void* p_arg);
+    void* p_arg;
     uint32_t tm_periode;
     uint32_t tm_elapsed;
 } task_t;
@@ -83,18 +84,18 @@ void task_exe(void);
  * @param periode   : execution periode of this task function.
  * @return uint8_t  : task id. use this id if task need to be removed with remove_task.
  */
-uint8_t add_task(void (*task)(void), uint32_t periode);
+uint8_t add_task(void (*task)(void* p_arg), uint32_t periode, void* p_task_arg);
 
 /**
- * @brief Remove taks from schedule table 
+ * @brief Remove task from schedule table 
  * 
- * @param task_id : taks id that will be removed from schedule table.
+ * @param task_id : task id that will be removed from schedule table.
  */
 void remove_task(uint8_t task_id);
 
 /**
  * @brief Get the active task id handle. Call this inside task function
- * to obtain this task handl. handle can be then use to removet task 
+ * to obtain this task handle. handle can be then use to remove task 
  * 
  * @return uint8_t task handle
  */
@@ -156,7 +157,7 @@ void task_exe(void)
 
             if(p_task->tm_elapsed >= p_task->tm_periode) {
                 Scheduler._active_task_ID = i;
-                p_task->task();
+                p_task->task(p_task->p_arg);
                 p_task->tm_elapsed = 0;
             }
         }
@@ -174,7 +175,7 @@ void task_exe(void)
     }
 }
 
-uint8_t add_task(void (*p_task)(void), uint32_t periode)
+uint8_t add_task(void (*task)(void* p_arg), uint32_t periode, void* p_task_arg)
 {
     task_t* p_slot;
     uint8_t task_id = SCHEDULER_TASK_ID_INVALID;
@@ -188,8 +189,9 @@ uint8_t add_task(void (*p_task)(void), uint32_t periode)
             p_slot = &tasks_queue[i];
 
             if(p_slot->task == NULL) {
-                p_slot->task = p_task;
+                p_slot->task = task;
                 p_slot->tm_periode = periode;
+                p_slot->p_arg = p_task_arg;
                 
                 p_slot->tm_elapsed = 0;
 
@@ -225,6 +227,8 @@ void remove_task(uint8_t task_id) {
     if(task_id < SCHEDULER_TASK_MAX) {
         tasks_queue[task_id].task = NULL;
         --Scheduler._task_cnt;
+    }else {
+        scheduler_debug_msg_hook(debug_prefix_str, "try remove invalid task ID");
     }
 }
 

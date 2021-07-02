@@ -29,7 +29,7 @@ typedef struct
 {
     void (*run)(void);
     void (*task_exe)(void);
-    uint8_t (*add_task)(void (*task)(void), uint32_t periode);
+    uint8_t (*add_task)(void (*task)(void* p_arg), uint32_t periode, void* p_task_arg);
     void (*remove_task)(uint8_t task_id);
     uint8_t (*get_function_is_listed)(void (*task)(void));
     uint8_t (*get_active_task_id)(void);
