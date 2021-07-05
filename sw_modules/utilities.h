@@ -22,8 +22,10 @@ extern "C" {
 #define HOUR                60 * MINUTE
 
 typedef enum {
-    SET_OFF = 0,
-    SET_ON
+    SET_OFF = (uint8_t)0,
+    SET_ON,
+
+    SET_CNT
 }on_off_e_t;
 
 #define ARRAY_LENGTH(array) (sizeof((array))/sizeof((array)[0]))

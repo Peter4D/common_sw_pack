@@ -153,7 +153,7 @@ void swTimer_tick(void) {
                 }
                 /**  @todo this at the moment is needed. in callback user can check what was last set time,
                  * but if used in polling mode (.isElapsed), this info is not available because of this 
-                 * line of code. ... refactor is this feature is needed: 
+                 * line of code. ... refactor if this feature is needed: 
                  */
                 pTimer->_cnt = 0; 
             }
